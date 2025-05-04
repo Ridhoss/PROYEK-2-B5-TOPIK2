@@ -25,7 +25,7 @@ void tampilanAwal() {
     printf("time: %d\n", lastTime);
 
     tampilanNama(); 
-    // Menampilkan logo snacksnake
+
     readimagefile(
         "assets/judul.bmp",
         (fullscreen_width - 300) / 2,
@@ -35,35 +35,36 @@ void tampilanAwal() {
     );
 
 
-    int iconWidth = 25, iconHeight = 25;
+    int musicIconWidth = 40, musicIconHeight = 40;
+    int dropdownIconWidth = 75, dropdownIconHeight = 75;
 
-    //Pojok Kiri Atas: icon music_logo
-    readimagefile(
-        "assets/music_logo.bmp",
+    int marginLeft = 15;
+    int spacing = 15;
+    int bottomY = fullscreen_height - dropdownIconHeight - 30;
+
+
+    readimagefile("assets/music_logo.bmp",
         15, 20,
-        10 + iconWidth, 10 + iconHeight
-    );
+        15 + musicIconWidth, 20 + musicIconHeight);
 
-    // Pojok Kanan Atas: icon guide_logo
-    // readimagefile(
-    //     "assets/guide_logo.bmp",
-    //     fullscreen_width - iconWidth - 10, 20,
-    //     fullscreen_width - 10, 10 + iconHeight
-    // );
+    // posisi untuk masing-masing ikon 
+    int iconY[3] = {
+    bottomY - 2 * (dropdownIconHeight + spacing), // snake
+    bottomY - dropdownIconHeight - spacing,       // guide
+    bottomY                                       // arena
+    };
+    
 
-    // Pojok Kiri Bawah: icon snake_logo
-    readimagefile(
-        "assets/snake_logo.bmp",
-        10, fullscreen_height - iconHeight - 30,
-        10 + iconWidth, fullscreen_height - 40
-    );
+    readimagefile("assets/snake_logo.bmp", marginLeft, iconY[0], marginLeft + dropdownIconWidth, iconY[0] + dropdownIconHeight);
+    readimagefile("assets/guide_logo.bmp", marginLeft, iconY[1], marginLeft + dropdownIconWidth, iconY[1] + dropdownIconHeight);
+    readimagefile("assets/arena_logo.bmp", marginLeft, iconY[2], marginLeft + dropdownIconWidth, iconY[2] + dropdownIconHeight);
 
-    // Pojok Kanan Bawah: arena_logo
-    readimagefile(
-        "assets/arena_logo.bmp",
-        fullscreen_width - iconWidth - 20, fullscreen_height - iconHeight - 30,
-        fullscreen_width - 10, fullscreen_height - 40
-    );
+   
+    const char* textImages[3] = {
+        "assets/text1.bmp",
+        "assets/text2.bmp",
+        "assets/text3.bmp"
+    };
 
     int tombolLebar = 200, tombolTinggi = 50;
     int posisiX = (fullscreen_width - tombolLebar) / 2;
@@ -73,13 +74,42 @@ void tampilanAwal() {
     tombol(posisiX, posisiY + 80, tombolLebar, tombolTinggi, "BLUE", "LEADERBOARD", 3);
     tombol(posisiX, posisiY + 150, tombolLebar, tombolTinggi, "RED", "EXIT", 3);
 
+    bool isHovering[3] = { false, false, false };
 
-    //klik start dan quit!
-    while (1) {
-        int x, y;
+   
+   while (1) {
+        int x = mousex();
+        int y = mousey();
+
+        for (int i = 0; i < 3; i++) {
+            int iconX1 = marginLeft;
+            int iconY1 = iconY[i];
+            int iconX2 = iconX1 + dropdownIconWidth;
+            int iconY2 = iconY1 + dropdownIconHeight;
+
+            int dropX1 = iconX2 + 10;
+            int dropY1 = iconY1 + (dropdownIconHeight - 40) / 2;
+            int dropX2 = dropX1 + 100;
+            int dropY2 = dropY1 + 40;
+
+            if (x >= iconX1 && x <= iconX2 && y >= iconY1 && y <= iconY2) {
+                if (!isHovering[i]) {
+                    setfillstyle(SOLID_FILL, BLACK);
+                    bar(dropX1 - 2, dropY1 - 2, dropX2 + 2, dropY2 + 2);
+                    readimagefile(textImages[i], dropX1, dropY1, dropX2, dropY2);
+                    isHovering[i] = true;
+                }
+            } else {
+                if (isHovering[i]) {
+                    setfillstyle(SOLID_FILL, BLACK);
+                    bar(dropX1 - 2, dropY1 - 2, dropX2 + 2, dropY2 + 2);
+                    isHovering[i] = false;
+                }
+            }
+        }
+
         if (ismouseclick(WM_LBUTTONDOWN)) {
             getmouseclick(WM_LBUTTONDOWN, x, y);
-            
             if (x >= posisiX && x <= posisiX + tombolLebar && y >= posisiY && y <= posisiY + tombolTinggi) {
                 tampilanPlay();
                 break;
@@ -87,10 +117,34 @@ void tampilanAwal() {
             if (x >= posisiX && x <= posisiX + tombolLebar && y >= posisiY + 150 && y <= posisiY + 150 + tombolTinggi) {
                 exit(0);
             }
+
+            // Cek klik pada dropdown
+            for (int i = 0; i < 3; i++) {
+                int iconX1 = marginLeft;
+                int iconY1 = iconY[i];
+                int iconX2 = iconX1 + dropdownIconWidth;
+                int iconY2 = iconY1 + dropdownIconHeight;
+
+                // int iconX2 = marginLeft + dropdownIconWidth;
+                int dropX1 = iconX2 + 10;
+                int dropY1 = iconY[i] + (dropdownIconHeight - 40) / 2;
+                int dropX2 = dropX1 + 100;
+                int dropY2 = dropY1 + 40;
+
+                if (x >= iconX1 && x <= iconX2 && y >= iconY1 && y <= iconY2) {
+                    if (i == 0) {
+                        tampilanPlay();
+                        return;
+                    } 
+                }
+
+               
+            }
         }
+
+        delay(50);
     }
 }
-
 
 // prosedur untuk tampilan nama kanan atas
 // pembuat modul : Salma
@@ -308,7 +362,7 @@ void tampilkanLeaderboard() {
     int kotak_width = 340;
     int kotak_height = 450;
     
-    int spacing = 370; // Jarak antara kotak leaderboard dan area permainan
+    int spacing = 370; 
 
     int x1 = SCREEN_WIDTH - kotak_width - 20 + spacing;
     int y1 = 60;
