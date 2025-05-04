@@ -1,4 +1,4 @@
-# PROYEK-2 KELOMPOK-B5 SNAKESNACK
+# PROYEK-2 KELOMPOK-B5 SNAKESNACK TOPIK 2 (LINKED LIST)
 
 Repository untuk penugasan proyek 2 dari kelompok 5 kelas 1B Aplikasi Game Ular Mukbang
 
@@ -29,37 +29,12 @@ g++ main.c function/basicfunction.c function/pages.c function/makanan.c function
 
 ## Modul Modul dan Pemiliknya
 
-Ridho : 
-- Modul AmbilWarna
-- Modul tulisan
-- Modul Kotak
-- Modul tombol
-- Modul ResetGame
-- Modul tampilanAwal
-- Modul PopUpPause
+Ridho : File Basicfunction
 
-Salma : 
-- Modul Titik
-- Modul gambarAwan
-- Modul Tombolpause
-- Modul HandlePause
-- Modul tampilanPlay
-- Modul tampilanArena
+Salma : File Pages
 
-Samudra : 
-- Modul GenerateRandomPosition
-- Modul GeneratemakananType
-- Modul Makanan
-- Modul TampilkanScore
+Samudra : File Makanan
 
-Dimas : 
-- Modul LoopGame
-- Modul InitUlar
-- Modul GerakUlar
-- Modul CekTabrakan
-- Modul CekMakanMakanan
-- Modul GambarUlar
+Dimas : File Ular
 
-Farhan : 
-- Modul Stopwatch
-- Modul startStopwatch
+Farhan : File Stopwatch
