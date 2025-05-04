@@ -111,7 +111,7 @@ void tampilanAwal() {
         if (ismouseclick(WM_LBUTTONDOWN)) {
             getmouseclick(WM_LBUTTONDOWN, x, y);
             if (x >= posisiX && x <= posisiX + tombolLebar && y >= posisiY && y <= posisiY + tombolTinggi) {
-                tampilanPlay();
+                tampilanArena();
                 break;
             }
             if (x >= posisiX && x <= posisiX + tombolLebar && y >= posisiY + 150 && y <= posisiY + 150 + tombolTinggi) {
@@ -179,7 +179,7 @@ void tampilanNama() {
 }
 
 
-// prosedur untuk tampilan play sebelum ingame
+// prosedur untuk tampilan play pilih skin ular
 // pembuat modul : Salma
 void tampilanPlay() {
     setbkcolor(BLACK);
@@ -187,60 +187,113 @@ void tampilanPlay() {
 
     Titik();
 
-    int iconWidth = 90, 
-    iconHeight = 25;  
-    int centerX = fullscreen_width / 2;
-    int iconY = fullscreen_height / 2 - iconHeight / 2 - 50;  
-    int spacing = 85; 
-    
-
     readimagefile(
-        "assets/pkiri.bmp",
-        centerX - iconWidth - spacing,
-        iconY,
-        centerX - spacing,
-        iconY + iconHeight
+        "assets/judul.bmp",
+        (fullscreen_width - 300) / 2,
+        10,
+        (fullscreen_width - 300) / 2 + 300,
+        10 + 207
     );
-    
-    
-    readimagefile(
+
+    const char* snakeImages[3] = {
         "assets/snake1.bmp",
-        centerX - iconWidth / 2,
-        iconY,
-        centerX + iconWidth / 2,
-        iconY + iconHeight
-    );
+        "assets/snake2.bmp",
+        "assets/snake3.bmp"
+    };
 
+    int currentSnake = 0;
+    int totalSnake = 3;
 
-    readimagefile(
-        "assets/pkanan.bmp",
-        centerX + spacing,
-        iconY,
-        centerX + iconWidth + spacing,
-        iconY + iconHeight
-    );
+    int panahWidth = 50, panahHeight = 20;
+    int snakeWidth = 270, snakeHeight = 20;
 
-    char judul[] = "GET READY!";
-    tulisan(0, 70, fullscreen_width, 0, "WHITE", judul, 6, Center);
-
+    int centerX = fullscreen_width / 2;
+    int spacing = 50;
+    int iconY = fullscreen_height / 2 - snakeHeight / 2 - 50;
 
     int tombolLebar = 150, tombolTinggi = 50;
     int posisiX = (fullscreen_width - tombolLebar) / 2;
-    int posisiY = iconY + iconHeight + 50;  
+    int posisiY = iconY + snakeHeight + 80;
+
+
+    int kiriX1 = centerX - snakeWidth / 2 - spacing - panahWidth;
+    int kiriY1 = iconY + (snakeHeight - panahHeight) / 2;
+    int kiriX2 = kiriX1 + panahWidth;
+    int kiriY2 = kiriY1 + panahHeight;
+
+    int kananX1 = centerX + snakeWidth / 2 + spacing;
+    int kananY1 = kiriY1;
+    int kananX2 = kananX1 + panahWidth;
+    int kananY2 = kananY1 + panahHeight;
+
+    
+    readimagefile("assets/pkiri.bmp", kiriX1, kiriY1, kiriX2, kiriY2);
+    readimagefile("assets/pkanan.bmp", kananX1, kananY1, kananX2, kananY2);
     tombol(posisiX, posisiY, tombolLebar, tombolTinggi, "GREEN", "Play", 3);
 
-   
+
+    readimagefile(
+        snakeImages[currentSnake],
+        centerX - snakeWidth / 2,
+        iconY,
+        centerX + snakeWidth / 2,
+        iconY + snakeHeight
+    );
+
     while (1) {
         int x, y;
         if (ismouseclick(WM_LBUTTONDOWN)) {
             getmouseclick(WM_LBUTTONDOWN, x, y);
 
-            gameOver = false;
-            tampilanArena();
-            break;
+
+            if (x >= kiriX1 && x <= kiriX2 && y >= kiriY1 && y <= kiriY2) {
+                currentSnake = (currentSnake - 1 + totalSnake) % totalSnake;
+
+               
+                setfillstyle(SOLID_FILL, BLACK);
+                bar(centerX - snakeWidth / 2, iconY, centerX + snakeWidth / 2, iconY + snakeHeight);
+
+          
+                readimagefile(
+                    snakeImages[currentSnake],
+                    centerX - snakeWidth / 2,
+                    iconY,
+                    centerX + snakeWidth / 2,
+                    iconY + snakeHeight
+                );
+            }
+
+ 
+            else if (x >= kananX1 && x <= kananX2 && y >= kananY1 && y <= kananY2) {
+                currentSnake = (currentSnake + 1) % totalSnake;
+
+             
+                setfillstyle(SOLID_FILL, BLACK);
+                bar(centerX - snakeWidth / 2, iconY, centerX + snakeWidth / 2, iconY + snakeHeight);
+
+              
+                readimagefile(
+                    snakeImages[currentSnake],
+                    centerX - snakeWidth / 2,
+                    iconY,
+                    centerX + snakeWidth / 2,
+                    iconY + snakeHeight
+                );
+            }
+
+      
+            else if (x >= posisiX && x <= posisiX + tombolLebar &&
+                     y >= posisiY && y <= posisiY + tombolTinggi) {
+                gameOver = false;
+                tampilanArena();
+                break;
+            }
         }
+
+        delay(30);
     }
 }
+
 // prosedur untuk tampilan arena ingame
 // pembuat modul : Salma
 void tampilanArena() 

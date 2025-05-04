@@ -2,3 +2,5 @@ ridho 21 53
 ridho 10 24
 ridho 0 4
 salma 0 1
+salma 0 1
+salma 0 1
