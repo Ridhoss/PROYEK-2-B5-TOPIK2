@@ -1,0 +1,3 @@
+ridho 21 53
+ridho 10 24
+ridho 0 4
