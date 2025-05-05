@@ -163,7 +163,7 @@ void inputNama(char *nama, int kotakX, int kotakY, int kotakW, int kotakH,
                 int currentWidth = textwidth(nama);
 
                 // Cek apakah masih muat dalam kotak
-                if (currentWidth + textwidth((char*)"W") < kotakW - 20) { // sedikit margin kanan
+                if (currentWidth + textwidth((char*)"W") < kotakW - 20) { 
                     nama[pos] = ch;
                     nama[pos + 1] = '\0';
 
