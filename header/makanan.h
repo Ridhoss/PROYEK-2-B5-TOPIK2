@@ -25,5 +25,11 @@ void Makanan(MakananStruct makanan);
 
 void Tampilkanscore();
 
+void gambarApel(int x, int y, int ukuran);
+
+void gambarScApel(int x, int y, int ukuran);
+
+void gambarRacun(int x, int y, int ukuran);
+
 
 #endif   

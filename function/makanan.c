@@ -33,13 +33,13 @@ makananType GeneratemakananType() {
 void Makanan(MakananStruct makanan) {
     switch (makanan.type) {
         case NORMAL:
-            Kotak(makanan.x, makanan.y, makanan.x + 20, makanan.y + 20, "RED");  // Makanan biasa (merah)
+            gambarApel(makanan.x, makanan.y, 20); // Makanan biasa (merah)
             break;
         case SPECIAL:
-            Kotak(makanan.x, makanan.y, makanan.x + 20, makanan.y + 20, "BLUE"); // Makanan spesial (biru)
+            gambarScApel(makanan.x, makanan.y, 20); // Makanan spesial (emas)
             break;
         case POISON:
-            Kotak(makanan.x, makanan.y, makanan.x + 20, makanan.y + 20, "GREEN"); // Makanan beracun (hijau)
+            gambarRacun(makanan.x, makanan.y, 5); // Makanan beracun (hijau)
             break;
     }
 }
@@ -61,4 +61,83 @@ void Tampilkanscore()
     outtextxy(30, 20, scoreText);
 }
 
+
+void gambarApel(int x, int y, int ukuran) {
+    // ukuran: panjang sisi kotak apel
+    int warnaUtama = AmbilWarna("RED");
+    int warnaHighlight = AmbilWarna("LIGHTRED");
+    int warnaTangkai = AmbilWarna("BROWN");
+    int warnaDaun = AmbilWarna("GREEN");
+
+    // Gambar apel (kotak utama)
+    setfillstyle(SOLID_FILL, warnaUtama);
+    bar(x, y, x + ukuran, y + ukuran);
+
+    // Gambar highlight di sisi kanan atas
+    setfillstyle(SOLID_FILL, warnaHighlight);
+    int highlightSize = ukuran / 3;
+    bar(x + ukuran - highlightSize - 2, y + 2, x + ukuran - 2, y + highlightSize + 2);
+
+    // Gambar tangkai di atas apel
+    setcolor(warnaTangkai);
+    setlinestyle(SOLID_LINE, 0, 3); // garis tebal
+    line(x + ukuran/2, y, x + ukuran/2, y - ukuran/3);
+
+    // Gambar daun di samping tangkai
+    setcolor(warnaDaun);
+    line(x + ukuran/2, y - ukuran/3, x + ukuran/2 + ukuran/4, y - ukuran/2);
+}
+
+void gambarRacun(int x, int y, int ukuran) {
+    // ukuran = seberapa besar pixel (scale)
+    int p = ukuran;
+
+    // Definisi warna
+    
+    int hijau = AmbilWarna("GREEN");    // isi racun
+    int putih = AmbilWarna("WHITE");    // highlight pantulan
+    int coklat = AmbilWarna("BROWN");   // tutup botol
+    int hitam = AmbilWarna("BLACK");    // latar belakang
+
+    // Tutup botol
+    setfillstyle(SOLID_FILL, coklat);
+    bar(x + 3*p, y, x + 5*p, y + p); // bagian coklat tutup
+
+    // Badan botol (ungu)
+    setfillstyle(SOLID_FILL, hijau);
+    bar(x + 2*p, y + p, x + 6*p, y + 6*p);
+
+    // Cairan racun hijau di dalam
+    setfillstyle(SOLID_FILL, hijau);
+    bar(x + 2*p, y + 4*p, x + 6*p, y + 6*p);
+
+    // Pantulan botol (highlight putih)
+    setfillstyle(SOLID_FILL, putih);
+    bar(x + 5*p, y + 2*p, x + 6*p, y + 3*p);
+
+    // Outline botol (hitam)
+    setcolor(hitam);
+    rectangle(x + 2*p, y + p, x + 6*p, y + 6*p);
+    rectangle(x + 3*p, y, x + 5*p, y + p); // outline tutup
+}
+
+void gambarScApel(int x, int y, int ukuran) {
+    // ukuran: panjang sisi kotak apel
+    int warnaUtama = AmbilWarna("YELLOW");
+    int warnaTangkai = AmbilWarna("BROWN");
+    int warnaDaun = AmbilWarna("GREEN");
+
+    // Gambar apel (kotak utama)
+    setfillstyle(SOLID_FILL, warnaUtama);
+    bar(x, y, x + ukuran, y + ukuran);
+
+    // Gambar tangkai di atas apel
+    setcolor(warnaTangkai);
+    setlinestyle(SOLID_LINE, 0, 3); // garis tebal
+    line(x + ukuran/2, y, x + ukuran/2, y - ukuran/3);
+
+    // Gambar daun di samping tangkai
+    setcolor(warnaDaun);
+    line(x + ukuran/2, y - ukuran/3, x + ukuran/2 + ukuran/4, y - ukuran/2);
+}
 
