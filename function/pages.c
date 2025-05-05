@@ -454,27 +454,25 @@ void tampilkanLeaderboard() {
     setbkcolor(CYAN);
 
     int barisTinggi = 30;
+    AmbilDataLeaderboard();
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 15; i++) {
         int barisY = awalY + 10 + (i + 1) * barisTinggi;
 
-       
         setfillstyle(SOLID_FILL, BLACK);
         bar(x1 + 10, barisY - 5, x2 - 10, barisY + barisTinggi - 10);
-
-        // Tampilkan data
+    
         char noStr[10], skorStr[10], waktuStr[10];
         sprintf(noStr, "%d", i + 1);
-        sprintf(skorStr, "%d", dummySkor[i]);
-        sprintf(waktuStr, "%ds", dummyWaktu[i]);
-        
+        sprintf(skorStr, "%d", leaderboard[i].skor);
+        sprintf(waktuStr, "%ds", leaderboard[i].waktu);
+    
         setbkcolor(BLACK);
         tulisan(kolomNoX, barisY, 0, 0, "WHITE", noStr, 1, Random);
-        tulisan(kolomNamaX, barisY, 0, 0, "WHITE", dummyNama[i], 1, Random);
+        tulisan(kolomNamaX, barisY, 0, 0, "WHITE", leaderboard[i].nama, 1, Random);
         tulisan(kolomSkorX, barisY, 0, 0, "WHITE", skorStr, 1, Random);
         tulisan(kolomWaktuX, barisY, 0, 0, "WHITE", waktuStr, 1, Random);
         setbkcolor(CYAN);
-
     }
     
 }
