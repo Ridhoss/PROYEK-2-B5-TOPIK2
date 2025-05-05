@@ -147,6 +147,7 @@ void inputNama(char *nama, int kotakX, int kotakY, int kotakW, int kotakH,
             ch = getch();
 
             if (ch == 13) { // Enter ditekan
+                tampilanAwal(); 
                 break;
             }
             else if (ch == 8 && pos > 0) { // Backspace

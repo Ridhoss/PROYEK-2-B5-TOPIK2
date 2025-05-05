@@ -5,3 +5,4 @@ salma 0 1
 salma 0 1
 salma 0 1
 ridho 0 4
+ridho 6 15
