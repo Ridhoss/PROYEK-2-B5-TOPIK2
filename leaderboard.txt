@@ -4,5 +4,4 @@ ridho 0 4
 salma 0 1
 salma 0 1
 salma 0 1
-samud 13 47
-ye 11 20
+ridho 0 4

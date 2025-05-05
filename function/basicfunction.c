@@ -18,14 +18,37 @@ int score = 0;
 int lastScore = 0;
 char nama[100] = "";
 int lastTime = 0;
+int warnaCustomIndex = 16;
+
 
 int fullscreen_width = 640;
 int fullscreen_height = 480;
 
 // Fungsi untuk mengonversi warna dari string ke nilai integer
 // pembuat modul : Ridho
-int AmbilWarna(CSTR color) 
-{
+
+typedef struct {
+    const char* name;
+    int r, g, b;
+} WarnaCustom;
+
+WarnaCustom daftarWarna[] = {
+    {"ORANGE", 255, 109, 12},
+    {"LIGHTORANGE", 251, 192, 153},
+    {"BLUESNAKE", 7, 105, 170},
+    {"LIGHTBLUESNAK", 102, 189, 247},
+    {"PINK", 255, 192, 203},
+    {"PURPLE", 128, 0, 128},
+    {"NAVY", 0, 0, 128},
+    {"TEAL", 0, 128, 128},
+    {"LIME", 0, 255, 0},
+    {"MAROON", 128, 0, 0},
+    {"OLIVE", 128, 128, 0},
+    {"SILVER", 192, 192, 192},
+};
+
+int AmbilWarna(const char* color) {
+    // Warna standar bawaan
     if (strcmp(color, "BLACK") == 0) return BLACK;
     if (strcmp(color, "BLUE") == 0) return BLUE;
     if (strcmp(color, "GREEN") == 0) return GREEN;
@@ -42,9 +65,17 @@ int AmbilWarna(CSTR color)
     if (strcmp(color, "LIGHTMAGENTA") == 0) return LIGHTMAGENTA;
     if (strcmp(color, "YELLOW") == 0) return YELLOW;
     if (strcmp(color, "WHITE") == 0) return WHITE;
-    
+
+    // Warna custom RGB (khusus untuk winbgim)
+    for (int i = 0; i < sizeof(daftarWarna)/sizeof(WarnaCustom); i++) {
+        if (strcmp(color, daftarWarna[i].name) == 0) {
+            return COLOR(daftarWarna[i].r, daftarWarna[i].g, daftarWarna[i].b);
+        }
+    }
+
     return WHITE;
 }
+
 
 // Fungsi membuat teks
 // pembuat modul : Ridho
