@@ -5,4 +5,14 @@ salma 0 1
 salma 0 1
 salma 0 1
 ridho 0 4
-ridho 6 15
+sam 0 5
+sam 0 1
+sam 0 2
+sam 0 1
+sam 0 1
+sam 0 1
+sam 0 2
+sam 0 13
+sam 21 127
+sam 0 20
+sa 1 9
