@@ -372,7 +372,7 @@ void tampilanInput() {
     int posisiX = (getmaxx() - tombolLebar) / 2;
     int posisiY = kotakY + 85;
 
-    tombol(posisiX, posisiY, tombolLebar, tombolTinggi, "GREEN", "MASUK", 3);
+    tombol(posisiX, posisiY, tombolLebar, tombolTinggi, "ORANGE", "MASUK", 3);
 
     inputNama(nama, kotakX, kotakY, kotakW, kotakH, posisiX, posisiY, tombolLebar, tombolTinggi);
 
