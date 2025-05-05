@@ -282,8 +282,8 @@ void tampilanPlay() {
             }
 
       
-            else if (x >= posisiX && x <= posisiX + tombolLebar &&
-                     y >= posisiY && y <= posisiY + tombolTinggi) {
+            else if (x >= posisiX && x <= posisiX + tombolLebar && y >= posisiY && y <= posisiY + tombolTinggi) {
+                selectedSnakeIndex = currentSnake;
                 gameOver = false;
                 tampilanArena();
                 break;
