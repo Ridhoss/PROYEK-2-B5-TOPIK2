@@ -7,12 +7,16 @@
 
 #define MAX_LENGTH ((SCREEN_WIDTH - 40) / CELL_SIZE) * ((SCREEN_HEIGHT - 80) / CELL_SIZE)
 
-typedef struct {int x, y;} Segment;
+typedef struct Segment {
+    int x, y;
+    struct Segment *next;
+} Segment;
+
 typedef enum { UP, DOWN, LEFT, RIGHT } Direction;
 
 // Variabel global untuk ular
-extern Segment ular[MAX_LENGTH];
-extern int panjangUlar;
+extern Segment *head;
+extern Segment *tail;
 extern Direction arah;
 
 void InitUlar();

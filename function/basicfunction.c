@@ -195,11 +195,21 @@ void inputNama(char *nama, int kotakX, int kotakY, int kotakW, int kotakH,
 void ResetGame() {
     paused = false;
     arah = RIGHT;
-    panjangUlar = 3;
     lastScore = score;
     lastTime = elapsed_time;
     SaveToLeaderboard(nama, lastScore, lastTime);
     score = 0;
+
+    Segment *current = head;
+    while (current != NULL) {
+        Segment *next = current->next;
+        free(current);
+        current = next;
+    }
+    head = NULL;
+    tail = NULL;
+
+    InitUlar();
 }
 
 // Prosedur untuk melakukan save ke txt leaderboard

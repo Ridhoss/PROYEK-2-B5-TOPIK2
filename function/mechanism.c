@@ -108,6 +108,14 @@ void LoopGame() {
             // *Batasi FPS (Frame Per Second)*
             if (currentTime - lastUpdate < frameDelay) continue;
             lastUpdate = currentTime;
+            
+            // *Menambah kecepatan ular berdasarkan kecepatan setiap 60 detik sekali snakespeednya berkurang 10
+            if (elapsed_time % 60 == 0 && elapsed_time != lastTime) {
+                if (snakeSpeed > 50) { // Batasi kecepatan minimum
+                    snakeSpeed -= 10;
+                }
+                lastTime = elapsed_time;
+            }
 
             // *Gerakkan ular berdasarkan kecepatan*
             if (currentTime - lastMoveTime >= snakeSpeed) {
