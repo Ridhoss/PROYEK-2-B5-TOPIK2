@@ -13,6 +13,7 @@
 
 extern int score;
 
+
 Segment ular[MAX_LENGTH];
 int panjangUlar = 3;
 Direction arah = RIGHT;
@@ -82,10 +83,11 @@ bool CekMakanMakanan(MakananStruct *makanan) {
 // Prosedur Menggambar ulang ular di layar
 // pembuat modul : Dimas
 void GambarUlar() {
-    // Gambar kepala dengan warna merah
+    
+    // Gambar kepala
     Kotak(ular[0].x, ular[0].y, ular[0].x + CELL_SIZE, ular[0].y + CELL_SIZE, "GREEN");
 
-    // Gambar badan dengan warna hijau
+    // Gambar badan
     for (int i = 1; i < panjangUlar; i++) {
         Kotak(ular[i].x, ular[i].y, ular[i].x + CELL_SIZE, ular[i].y + CELL_SIZE, "LIGHTGREEN");
     }

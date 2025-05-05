@@ -10,6 +10,15 @@ typedef enum {
     POISON
 } makananType;
 
+ 
+extern int selectedSnakeIndex;
+extern const char* warnaKepalaUlar[3];
+extern const char* warnaBadanUlar[3];
+
+
+
+
+
 // Struktur untuk makanan
 typedef struct {
     int x, y;
@@ -25,5 +34,13 @@ void Makanan(MakananStruct makanan);
 
 void Tampilkanscore();
 
+void gambarApel(int x, int y, int ukuran);
+
+void gambarScApel(int x, int y, int ukuran);
+
+void gambarRacun(int x, int y, int ukuran);
+
+const char* GetWarnaKepala(int index);
+const char* GetWarnaBadan(int index);
 
 #endif   
