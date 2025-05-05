@@ -36,7 +36,7 @@ WarnaCustom daftarWarna[] = {
     {"ORANGE", 255, 109, 12},
     {"LIGHTORANGE", 251, 192, 153},
     {"BLUESNAKE", 7, 105, 170},
-    {"LIGHTBLUESNAK", 102, 189, 247},
+    {"LIGHTBLUESNAKE", 102, 189, 247},
     {"PINK", 255, 192, 203},
     {"PURPLE", 128, 0, 128},
     {"NAVY", 0, 0, 128},
