@@ -20,6 +20,23 @@ extern int fullscreen_height;
 typedef const char* CSTR;
 typedef enum { Center, Random } typePenempatanTulisan;
 
+typedef struct {
+    const char* name;
+    int r, g, b;
+} WarnaCustom;
+
+#define MAX_LEADERBOARD 100
+#define MAX_NAMA 50
+
+typedef struct {
+    char nama[MAX_NAMA];
+    int skor;
+    int waktu;
+} LeaderboardEntry;
+
+extern LeaderboardEntry leaderboard[MAX_LEADERBOARD];
+extern int jumlahDataLeaderboard;
+
 // header mengambil warna
 int AmbilWarna(CSTR color);
 // header membuat tulisan
@@ -35,5 +52,8 @@ void inputNama(char* nama, int x, int y, int width, int height, int tombolX, int
 void ResetGame();
 
 void SaveToLeaderboard(char *name, int score, int time);
+
+void AmbilDataLeaderboard();
+
 
 #endif   

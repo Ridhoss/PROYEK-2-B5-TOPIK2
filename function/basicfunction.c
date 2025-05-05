@@ -24,19 +24,16 @@ int warnaCustomIndex = 16;
 int fullscreen_width = 640;
 int fullscreen_height = 480;
 
+LeaderboardEntry leaderboard[MAX_LEADERBOARD];
+int jumlahDataLeaderboard = 0;
+
 // Fungsi untuk mengonversi warna dari string ke nilai integer
 // pembuat modul : Ridho
-
-typedef struct {
-    const char* name;
-    int r, g, b;
-} WarnaCustom;
-
 WarnaCustom daftarWarna[] = {
     {"ORANGE", 255, 109, 12},
     {"LIGHTORANGE", 251, 192, 153},
     {"BLUESNAKE", 7, 105, 170},
-    {"LIGHTBLUESNAK", 102, 189, 247},
+    {"LIGHTBLUESNAKE", 102, 189, 247},
     {"PINK", 255, 192, 203},
     {"PURPLE", 128, 0, 128},
     {"NAVY", 0, 0, 128},
@@ -147,6 +144,7 @@ void inputNama(char *nama, int kotakX, int kotakY, int kotakW, int kotakH,
             ch = getch();
 
             if (ch == 13) { // Enter ditekan
+                tampilanAwal(); 
                 break;
             }
             else if (ch == 8 && pos > 0) { // Backspace
@@ -197,7 +195,9 @@ void ResetGame() {
     arah = RIGHT;
     lastScore = score;
     lastTime = elapsed_time;
+
     SaveToLeaderboard(nama, lastScore, lastTime);
+    
     score = 0;
 
     Segment *current = head;
@@ -210,6 +210,7 @@ void ResetGame() {
     tail = NULL;
 
     InitUlar();
+    gameOver = false;
 }
 
 // Prosedur untuk melakukan save ke txt leaderboard
@@ -223,4 +224,24 @@ void SaveToLeaderboard(char *name, int score, int time)
     } else {
         printf("Error opening file!\n");
     }
+}
+
+void AmbilDataLeaderboard() {
+    FILE *file = fopen("leaderboard.txt", "r");
+    if (file == NULL) {
+        printf("Gagal membuka file leaderboard.txt\n");
+        return;
+    }
+
+    jumlahDataLeaderboard = 0;
+    while (fscanf(file, "%s %d %d", leaderboard[jumlahDataLeaderboard].nama,
+                  &leaderboard[jumlahDataLeaderboard].skor,
+                  &leaderboard[jumlahDataLeaderboard].waktu) == 3) {
+        jumlahDataLeaderboard++;
+        if (jumlahDataLeaderboard >= MAX_LEADERBOARD) {
+            break;
+        }
+    }
+
+    fclose(file);
 }

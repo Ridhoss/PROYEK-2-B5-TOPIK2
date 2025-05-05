@@ -282,8 +282,8 @@ void tampilanPlay() {
             }
 
       
-            else if (x >= posisiX && x <= posisiX + tombolLebar &&
-                     y >= posisiY && y <= posisiY + tombolTinggi) {
+            else if (x >= posisiX && x <= posisiX + tombolLebar && y >= posisiY && y <= posisiY + tombolTinggi) {
+                selectedSnakeIndex = currentSnake;
                 gameOver = false;
                 tampilanArena();
                 break;
@@ -411,11 +411,14 @@ void gambarAwan(int x, int y)
 
 // Prosedur untuk menampilkan leaderboard di arena main
 // pembuat modul : Salma
+// Fungsi menampilkan tabel leaderboard dengan dummy data
+// Pembuat modul : Salma
+// Dimodifikasi oleh : -
+
 void tampilkanLeaderboard() {
-    int kotak_width = 340;
-    int kotak_height = 450;
-    
-    int spacing = 370; 
+    int kotak_width = 530;
+    int kotak_height = 620;
+    int spacing = 600;
 
     int x1 = SCREEN_WIDTH - kotak_width - 20 + spacing;
     int y1 = 60;
@@ -425,6 +428,54 @@ void tampilkanLeaderboard() {
     Kotak(x1, y1, x2, y2, "BLACK");
     setbkcolor(CYAN);
 
-    int imageHeight = 60;  
+    int imageHeight = 60;
     readimagefile("assets/group_leaderboard.bmp", x1 + 10, y1 + 10, x2 - 10, y1 + imageHeight);
+
+    // Kolom teks (judul)
+    int kolomNoX = x1 + 20;
+    int kolomNamaX = x1 + 80;
+    int kolomSkorX = x1 + 270;
+    int kolomWaktuX = x1 + 390;
+    int awalY = y1 + imageHeight + 20;
+
+    // Header tabel
+    setbkcolor(BLACK);
+    tulisan(kolomNoX, awalY, 0, 0, "WHITE", "No", 1, Random);
+    tulisan(kolomNamaX, awalY, 0, 0, "WHITE", "Nama", 1, Random);
+    tulisan(kolomSkorX, awalY, 0, 0, "WHITE", "Skor", 1, Random);
+    tulisan(kolomWaktuX, awalY, 0, 0, "WHITE", "Waktu", 1, Random);
+    setbkcolor(CYAN);
+
+
+    setbkcolor(BLACK);
+    const char* dummyNama[] = {"Salma", "Ari", "Budi", "Citra", "Dina"};
+    int dummySkor[] = {120, 110, 105, 90, 85};
+    int dummyWaktu[] = {60, 72, 80, 95, 100};
+    setbkcolor(CYAN);
+
+    int barisTinggi = 30;
+    AmbilDataLeaderboard();
+
+    for (int i = 0; i < 15; i++) {
+        int barisY = awalY + 10 + (i + 1) * barisTinggi;
+
+        setfillstyle(SOLID_FILL, BLACK);
+        bar(x1 + 10, barisY - 5, x2 - 10, barisY + barisTinggi - 10);
+    
+        char noStr[10], skorStr[10], waktuStr[10];
+        sprintf(noStr, "%d", i + 1);
+        sprintf(skorStr, "%d", leaderboard[i].skor);
+        sprintf(waktuStr, "%ds", leaderboard[i].waktu);
+    
+        setbkcolor(BLACK);
+        tulisan(kolomNoX, barisY, 0, 0, "WHITE", noStr, 1, Random);
+        tulisan(kolomNamaX, barisY, 0, 0, "WHITE", leaderboard[i].nama, 1, Random);
+        tulisan(kolomSkorX, barisY, 0, 0, "WHITE", skorStr, 1, Random);
+        tulisan(kolomWaktuX, barisY, 0, 0, "WHITE", waktuStr, 1, Random);
+        setbkcolor(CYAN);
+    }
+    
 }
+
+
+  
