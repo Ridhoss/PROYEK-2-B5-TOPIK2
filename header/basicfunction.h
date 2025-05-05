@@ -17,9 +17,6 @@ extern int fullscreen_height;
 #define SCREEN_WIDTH 900
 #define SCREEN_HEIGHT 700
 
-#define MAX_ENTRIES 100
-#define MAX_NAME_LENGTH 50
-
 typedef const char* CSTR;
 typedef enum { Center, Random } typePenempatanTulisan;
 
@@ -28,14 +25,17 @@ typedef struct {
     int r, g, b;
 } WarnaCustom;
 
+#define MAX_LEADERBOARD 100
+#define MAX_NAMA 50
+
 typedef struct {
-    char name[MAX_NAME_LENGTH];
-    int score;
-    int time;
+    char nama[MAX_NAMA];
+    int skor;
+    int waktu;
 } LeaderboardEntry;
 
-extern LeaderboardEntry leaderboard[MAX_ENTRIES];
-extern int leaderboardSize;
+extern LeaderboardEntry leaderboard[MAX_LEADERBOARD];
+extern int jumlahDataLeaderboard;
 
 // header mengambil warna
 int AmbilWarna(CSTR color);
@@ -53,6 +53,7 @@ void ResetGame();
 
 void SaveToLeaderboard(char *name, int score, int time);
 
-void AmbilLeaderboard();
+void AmbilDataLeaderboard();
+
 
 #endif   

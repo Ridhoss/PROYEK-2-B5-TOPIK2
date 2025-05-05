@@ -24,10 +24,8 @@ int warnaCustomIndex = 16;
 int fullscreen_width = 640;
 int fullscreen_height = 480;
 
-
-LeaderboardEntry leaderboard[MAX_ENTRIES];
-int leaderboardSize = 0;
-
+LeaderboardEntry leaderboard[MAX_LEADERBOARD];
+int jumlahDataLeaderboard = 0;
 
 // Fungsi untuk mengonversi warna dari string ke nilai integer
 // pembuat modul : Ridho
@@ -163,7 +161,7 @@ void inputNama(char *nama, int kotakX, int kotakY, int kotakW, int kotakH,
                 int currentWidth = textwidth(nama);
 
                 // Cek apakah masih muat dalam kotak
-                if (currentWidth + textwidth((char*)"W") < kotakW - 20) { 
+                if (currentWidth + textwidth((char*)"W") < kotakW - 20) { // sedikit margin kanan
                     nama[pos] = ch;
                     nama[pos + 1] = '\0';
 
@@ -198,8 +196,11 @@ void ResetGame() {
     panjangUlar = 3;
     lastScore = score;
     lastTime = elapsed_time;
+
     SaveToLeaderboard(nama, lastScore, lastTime);
+    
     score = 0;
+    gameOver = false;
 }
 
 // Prosedur untuk melakukan save ke txt leaderboard
@@ -215,20 +216,22 @@ void SaveToLeaderboard(char *name, int score, int time)
     }
 }
 
-void AmbilLeaderboard() {
+void AmbilDataLeaderboard() {
     FILE *file = fopen("leaderboard.txt", "r");
-    if (file != NULL) {
-        leaderboardSize = 0;
-        while (fscanf(file, "%s %d %d", leaderboard[leaderboardSize].name,
-                      &leaderboard[leaderboardSize].score,
-                      &leaderboard[leaderboardSize].time) == 3) {
-            leaderboardSize++;
-            if (leaderboardSize >= MAX_ENTRIES) {
-                break;
-            }
-        }
-        fclose(file);
-    } else {
-        printf("Error opening leaderboard file for reading!\n");
+    if (file == NULL) {
+        printf("Gagal membuka file leaderboard.txt\n");
+        return;
     }
+
+    jumlahDataLeaderboard = 0;
+    while (fscanf(file, "%s %d %d", leaderboard[jumlahDataLeaderboard].nama,
+                  &leaderboard[jumlahDataLeaderboard].skor,
+                  &leaderboard[jumlahDataLeaderboard].waktu) == 3) {
+        jumlahDataLeaderboard++;
+        if (jumlahDataLeaderboard >= MAX_LEADERBOARD) {
+            break;
+        }
+    }
+
+    fclose(file);
 }
