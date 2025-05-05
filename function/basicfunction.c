@@ -24,14 +24,13 @@ int warnaCustomIndex = 16;
 int fullscreen_width = 640;
 int fullscreen_height = 480;
 
+
+LeaderboardEntry leaderboard[MAX_ENTRIES];
+int leaderboardSize = 0;
+
+
 // Fungsi untuk mengonversi warna dari string ke nilai integer
 // pembuat modul : Ridho
-
-typedef struct {
-    const char* name;
-    int r, g, b;
-} WarnaCustom;
-
 WarnaCustom daftarWarna[] = {
     {"ORANGE", 255, 109, 12},
     {"LIGHTORANGE", 251, 192, 153},
@@ -213,5 +212,23 @@ void SaveToLeaderboard(char *name, int score, int time)
         fclose(file);
     } else {
         printf("Error opening file!\n");
+    }
+}
+
+void AmbilLeaderboard() {
+    FILE *file = fopen("leaderboard.txt", "r");
+    if (file != NULL) {
+        leaderboardSize = 0;
+        while (fscanf(file, "%s %d %d", leaderboard[leaderboardSize].name,
+                      &leaderboard[leaderboardSize].score,
+                      &leaderboard[leaderboardSize].time) == 3) {
+            leaderboardSize++;
+            if (leaderboardSize >= MAX_ENTRIES) {
+                break;
+            }
+        }
+        fclose(file);
+    } else {
+        printf("Error opening leaderboard file for reading!\n");
     }
 }
