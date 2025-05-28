@@ -23,5 +23,6 @@ void gambarAwan(int x, int y);
 
 void tampilkanLeaderboard();
 
+void tampilanGuide();
 
 #endif   
