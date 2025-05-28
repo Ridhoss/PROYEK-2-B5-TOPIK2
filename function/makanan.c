@@ -11,6 +11,8 @@
 #include "../header/stopwatch.h"
 #include "../header/mechanism.h"
 
+int selectedSnakeIndex = 0;
+
 // Fungsi membuat posisi acak
 // pembuat modul : Samudra
 void GenerateRandomPosition(int *x, int *y) {
@@ -141,3 +143,12 @@ void gambarScApel(int x, int y, int ukuran) {
     line(x + ukuran/2, y - ukuran/3, x + ukuran/2 + ukuran/4, y - ukuran/2);
 }
 
+const char* GetWarnaKepala(int index) {
+    const char* warnaKepalaUlar[3] = {"GREEN", "BLUESNAKE", "ORANGE"};
+    return warnaKepalaUlar[index];
+}
+
+const char* GetWarnaBadan(int index) {
+    const char* warnaBadanUlar[3] = {"LIGHTGREEN", "LIGHTBLUESNAKE", "LIGHTORANGE"};
+    return warnaBadanUlar[index];
+}
