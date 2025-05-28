@@ -152,4 +152,3 @@ const char* GetWarnaBadan(int index) {
     const char* warnaBadanUlar[3] = {"LIGHTGREEN", "LIGHTBLUESNAKE", "LIGHTORANGE"};
     return warnaBadanUlar[index];
 }
-

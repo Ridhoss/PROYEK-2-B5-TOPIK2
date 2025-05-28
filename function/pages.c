@@ -476,6 +476,3 @@ void tampilkanLeaderboard() {
     }
     
 }
-
-
-  

@@ -196,21 +196,23 @@ void ResetGame() {
     lastScore = score;
     lastTime = elapsed_time;
 
-    SaveToLeaderboard(nama, lastScore, lastTime);
+    // Simpan ke leaderboard hanya jika ada score
+    if (lastScore > 0 || lastTime > 0) {
+        SaveToLeaderboard(nama, lastScore, lastTime);
+    }
     
     score = 0;
 
-    Segment *current = head;
-    while (current != NULL) {
-        Segment *next = current->next;
-        free(current);
-        current = next;
-    }
-    head = NULL;
-    tail = NULL;
+    deleteAll(&snake);
+    
+    // Reset stopwatch
+    stopwatch_running = false;
+    total_paused_duration = 0;
+    elapsed_time = 0;
 
     InitUlar();
     gameOver = false;
+    
 }
 
 // Prosedur untuk melakukan save ke txt leaderboard

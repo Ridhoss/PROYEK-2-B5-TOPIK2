@@ -88,12 +88,12 @@ void LoopGame() {
     double lastUpdate = clock(); // Waktu terakhir frame diperbarui
     double lastMoveTime = clock(); // Waktu terakhir ular bergerak
     double frameDelay = 1000.0 / 60.0; // 60 FPS
-    double snakeSpeed = 150.0; // Kecepatan ular dalam ms (lebih besar = lebih lambat)
+    double snakeSpeed = 150.0; // Kecepatan ular dalam ms (lebih besar = lebih lambat)
 
     MakananStruct makanan;
     GenerateRandomPosition(&makanan.x, &makanan.y);
     makanan.type = GeneratemakananType();
-    makanan.spawnTime = clock(); // Simpan waktu makanan muncul
+    makanan.spawnTime = clock(); // Simpan waktu makanan muncul
 
     startStopwatch();
 
