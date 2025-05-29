@@ -9,7 +9,6 @@
 #include "../header/pages.h"
 #include "../header/ular.h"
 #include "../header/stopwatch.h"
-#include "../header/mechanism.h"
 
 bool paused = false;
 bool gameOver = false;
@@ -246,4 +245,182 @@ void AmbilDataLeaderboard() {
     }
 
     fclose(file);
+}
+
+// Prosedur untuk mengaktifkan atau menonaktifkan pause
+// pembuat modul : Salma
+// dimodifikasi oleh : -
+void Tombolpause() {
+    if (!paused) {
+        paused = true;
+        paused_time = time(NULL);
+    } else {
+        paused = false;
+        total_paused_duration += time(NULL) - paused_time;
+    }
+}
+
+// Prosedur untuk menangani klik mouse saat game dipause
+// pembuat modul : Salma
+// dimodifikasi oleh : -
+void HandlePause(int x, int y) {
+    if (!paused && x >= 520 && x <= 620 && y >= 15 && y <= 45) {
+        Tombolpause();
+    } else if (paused) {
+        int popupX = SCREEN_WIDTH / 4;
+        int popupY = SCREEN_HEIGHT / 4;
+        int popupWidth = SCREEN_WIDTH / 2;
+        int popupHeight = SCREEN_HEIGHT / 2;
+
+        int resumeX = popupX + (popupWidth / 2) - 50;
+        int resumeY = popupY + popupHeight / 2 - 20;
+        int exitX = popupX + (popupWidth / 2) - 50;
+        int exitY = popupY + popupHeight / 2 + 30;
+
+        if (x >= resumeX && x <= resumeX + 100 && y >= resumeY && y <= resumeY + 40) {
+            Tombolpause();
+        } else if (x >= exitX && x <= exitX + 100 && y >= exitY && y <= exitY + 40) {
+            ResetGame();
+            tampilanAwal();
+        }
+    }
+}
+
+// Prosedur cek input user
+// pembuat modul : Ridho
+// dimodifikasi oleh : Dimas, Salma
+void CekInputUser()
+{
+    // **Input pemain**
+    if (kbhit()) {
+        char key = getch();
+    
+        if (key == 0 || key == 224) {
+            key = getch();
+            if (key == 72 && arah != DOWN) arah = UP;    // Panah atas
+            else if (key == 80 && arah != UP) arah = DOWN;    // Panah bawah
+            else if (key == 75 && arah != RIGHT) arah = LEFT; // Panah kiri
+            else if (key == 77 && arah != LEFT) arah = RIGHT; // Panah kanan
+        } 
+        else if (key == 'p' || key == 'P') {
+            Tombolpause();
+        }
+    }
+    
+    //Mouse Klik Paused
+    if (ismouseclick(WM_LBUTTONDOWN)) {
+        int x, y;
+        
+        getmouseclick(WM_LBUTTONDOWN, x, y);
+        HandlePause(x, y);
+    }
+}
+
+
+// Prosedur Loop utama game
+// pembuat modul : Dimas
+// dimodifikasi oleh : Samudra, Ridho, Salma
+void LoopGame() {
+    int activePage = 0;
+    double lastUpdate = clock();
+    double lastMoveTime = clock();
+    double frameDelay = 1000.0 / 60.0;
+    double snakeSpeed = 150.0;
+    double speedBoostEndTime = 0;
+
+    MakananStruct makanan;
+    GenerateRandomPosition(&makanan.x, &makanan.y);
+    makanan.type = GeneratemakananType();
+    makanan.spawnTime = clock();
+
+    startStopwatch();
+
+    // --- Siapkan buffer statis ---
+    int arenaWidth = getmaxx();
+    int arenaHeight = getmaxy();
+
+    void* arenaBuffer = malloc(imagesize(0, 0, arenaWidth, arenaHeight));
+    if (!arenaBuffer) {
+        printf("Gagal alokasi buffer\n");
+        return;
+    }
+
+    // gambar leaderboard dan arena statis
+    setactivepage(0);
+    cleardevice();
+
+    Kotak(20, 60, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
+    tombol(520, 15, 100, 30, "DARKGRAY", "PAUSE", 2);
+    tampilkanLeaderboard();
+
+    getimage(0, 0, arenaWidth, arenaHeight, arenaBuffer); // simpan sebagai buffer statis
+    
+
+    // --- Loop utama game ---
+    while (!gameOver) {
+        double currentTime = clock();
+
+        CekInputUser();
+
+        if (!paused) {
+            if (currentTime - lastUpdate < frameDelay) continue;
+            lastUpdate = currentTime;
+
+            if (currentTime - lastMoveTime >= snakeSpeed) {
+                GerakUlar();
+                lastMoveTime = currentTime;
+            }
+
+            if (makanan.type == POISON && (currentTime - makanan.spawnTime) / CLOCKS_PER_SEC > 5) {
+                GenerateRandomPosition(&makanan.x, &makanan.y);
+                makanan.type = GeneratemakananType();
+                makanan.spawnTime = clock();
+            }
+
+            // --- Double Buffering ---
+            activePage = 1 - activePage;
+            setactivepage(activePage);
+            cleardevice();
+
+            // Tempel ulang arena statis ke buffer aktif
+            putimage(0, 0, arenaBuffer, COPY_PUT);
+
+            // Gambar elemen dinamis di atas buffer statis
+            Tampilkanscore();
+            Stopwatch();
+            Makanan(makanan);
+            GambarUlar();
+
+            // Makan makanan
+            if (CekMakanMakanan(&makanan)) {
+                GenerateRandomPosition(&makanan.x, &makanan.y);
+                makanan.type = GeneratemakananType();
+                makanan.spawnTime = clock();
+                printf("Score sekarang: %d\n", score);
+
+                speedBoostEndTime = clock() + 3 * CLOCKS_PER_SEC;
+            }
+
+            if (clock() < speedBoostEndTime) {
+                snakeSpeed = 80.0;
+            } else {
+                snakeSpeed = 150.0;
+            }
+
+            setvisualpage(activePage);
+        } else {
+            setvisualpage(activePage);
+            PopUpPause();
+
+            while (paused && !gameOver) {
+                CekInputUser();
+                delay(10);
+            }
+        }
+
+        CekTabrakan();
+        delay(10);
+    }
+
+    free(arenaBuffer);
 }

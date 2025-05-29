@@ -9,7 +9,6 @@
 #include "../header/pages.h"
 #include "../header/ular.h"
 #include "../header/stopwatch.h"
-#include "../header/mechanism.h"
 
 
 // prosedur untuk tampilan awal

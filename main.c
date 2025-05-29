@@ -7,7 +7,6 @@
 #include "header/makanan.h"
 #include "header/ular.h"
 #include "header/stopwatch.h"
-#include "header/mechanism.h"
 
 int main() {
     // Ambil resolusi layar penuh

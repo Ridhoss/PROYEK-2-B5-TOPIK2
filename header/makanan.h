@@ -2,7 +2,6 @@
 #ifndef MAKANAN_H
 #define MAKANAN_H
 #include <graphics.h>
-#include "mechanism.h"
 
 typedef enum {
     NORMAL,

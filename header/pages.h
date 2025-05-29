@@ -1,7 +1,6 @@
 #ifndef PAGES_H
 #define PAGES_H
 #include <graphics.h>
-#include "mechanism.h"
 
 void tampilanAwal();
 

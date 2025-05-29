@@ -2,7 +2,6 @@
 #define ULAR_H
 #include <graphics.h>
 #include <stdbool.h>
-#include "mechanism.h"
 
 #define CELL_SIZE 20
 

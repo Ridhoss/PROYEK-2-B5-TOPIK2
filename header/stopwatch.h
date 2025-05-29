@@ -1,7 +1,6 @@
 #ifndef STOPWATCH_H
 #define STOPWATCH_H
 #include <graphics.h>
-#include "mechanism.h"
 
 extern time_t start_time;
 extern time_t paused_time;

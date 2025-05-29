@@ -1,7 +1,6 @@
 #ifndef BASICFUNCTION_H
 #define BASICFUNCTION_H
 #include <graphics.h>
-#include "mechanism.h"
 
 extern bool paused;
 extern bool gameOver;
@@ -54,6 +53,18 @@ void ResetGame();
 void SaveToLeaderboard(char *name, int score, int time);
 
 void AmbilDataLeaderboard();
+
+// prosedur untuk tombol mekanisme tombol pause
+void Tombolpause();
+
+// prosedur untuk menghandle interaksi tombol pause
+void HandlePause(int x, int y);
+
+// header cek input user
+void CekInputUser();
+
+// header loop game
+void LoopGame();
 
 
 #endif   

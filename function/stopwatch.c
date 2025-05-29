@@ -9,7 +9,6 @@
 #include "../header/pages.h"
 #include "../header/ular.h"
 #include "../header/stopwatch.h"
-#include "../header/mechanism.h"
 
 time_t start_time;
 time_t paused_time = 0;
