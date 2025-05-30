@@ -19,6 +19,9 @@ char nama[100] = "";
 int lastTime = 0;
 int warnaCustomIndex = 16;
 
+double speedBoostEndTime = 0;
+double slowDownEndTime = 0;
+
 
 int fullscreen_width = 640;
 int fullscreen_height = 480;
@@ -328,9 +331,9 @@ void LoopGame() {
     int activePage = 0;
     double lastUpdate = clock();
     double lastMoveTime = clock();
+    double startTime = clock();
     double frameDelay = 1000.0 / 60.0;
-    double snakeSpeed = 150.0;
-    double speedBoostEndTime = 0;
+    double snakeSpeed = 120.0;
 
     MakananStruct makanan;
     GenerateRandomPosition(&makanan.x, &makanan.y);
@@ -397,21 +400,26 @@ void LoopGame() {
 
             // Makan makanan
             if (CekMakanMakanan(&makanan)) {
-            if (makanan.type == SpeedBoost) {
-            speedBoostEndTime = clock() + 3 * CLOCKS_PER_SEC;
+                GenerateRandomPosition(&makanan.x, &makanan.y);
+                makanan.type = GeneratemakananType();
+                makanan.spawnTime = clock();
+                printf("Score sekarang: %d\n", score);
             }
 
-            GenerateRandomPosition(&makanan.x, &makanan.y);
-            makanan.type = GeneratemakananType();
-            makanan.spawnTime = clock();
-            printf("Score sekarang: %d\n", score);
-            }
-
-            if (clock() < speedBoostEndTime) {
-                snakeSpeed = 80.0;
+            if (currentTime < speedBoostEndTime) {
+                snakeSpeed = 50.0; 
+            } else if (currentTime < slowDownEndTime) {
+                snakeSpeed = 180.0; 
             } else {
-                snakeSpeed = 150.0;
+                snakeSpeed = 120.0;  
             }
+
+            double elapsedSeconds = (clock() - startTime) / CLOCKS_PER_SEC;
+            double speedReduction = (int)(elapsedSeconds / 20) * 10.0;
+            snakeSpeed -= speedReduction;
+
+            if (snakeSpeed < 40.0) snakeSpeed = 40.0;
+
 
             setvisualpage(activePage);
         } else {

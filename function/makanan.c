@@ -25,7 +25,7 @@ makananType GeneratemakananType() {
     int random = rand() % 100;
 
     if (random < 50) return NORMAL;
-    else if (random < 70) return SPECIAL; // 20% chance for special food
+    else if (random < 70) return SPECIAL;
     else if (random < 80) return POISON;
     else return SpeedBoost;             
 }

@@ -208,12 +208,17 @@ bool CekMakanMakanan(MakananStruct *makanan) {
         // Update score berdasarkan jenis makanan
         if (makanan->type == SPECIAL) {
             score += 5;
+            speedBoostEndTime = clock() + 1 * CLOCKS_PER_SEC;
         } else if (makanan->type == POISON) {
             score -= 3;
-            // Jika score negatif, set ke 0
             if (score < 0) score = 0;
-        } else {
+            slowDownEndTime = clock() + 3 * CLOCKS_PER_SEC;
+        } else if (makanan->type == SpeedBoost) {
             score += 1;
+            speedBoostEndTime = clock() + 8 * CLOCKS_PER_SEC;
+        }else {
+            score += 1;
+            speedBoostEndTime = clock() + 1 * CLOCKS_PER_SEC;
         }
         
         return true;

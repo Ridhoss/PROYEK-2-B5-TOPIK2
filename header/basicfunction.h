@@ -10,6 +10,9 @@ extern int lastScore;
 extern char nama[100];
 extern int lastTime;
 
+extern double speedBoostEndTime;
+extern double slowDownEndTime;
+
 extern int fullscreen_width;
 extern int fullscreen_height;
 
