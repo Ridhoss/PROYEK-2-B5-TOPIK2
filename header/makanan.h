@@ -35,6 +35,8 @@ void Makanan(MakananStruct makanan);
 
 void Tampilkanscore();
 
+bool CekMakanMakanan(MakananStruct *makanan);
+
 void gambarApel(int x, int y, int ukuran);
 
 void gambarScApel(int x, int y, int ukuran);

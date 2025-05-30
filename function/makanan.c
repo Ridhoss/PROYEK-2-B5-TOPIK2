@@ -66,6 +66,37 @@ void Tampilkanscore()
     outtextxy(30, 20, scoreText);
 }
 
+bool CekMakanMakanan(MakananStruct *makanan) {
+    if (isEmpty(&snake) || makanan == NULL) return false;
+    
+    int headX = snake.head->x;
+    int headY = snake.head->y;
+    
+    if (headX == makanan->x && headY == makanan->y) {
+        // Ular makan makanan - tambah panjang
+        GrowSnake();
+        
+        // Update score berdasarkan jenis makanan
+        if (makanan->type == SPECIAL) {
+            score += 5;
+            speedBoostEndTime = clock() + 1 * CLOCKS_PER_SEC;
+        } else if (makanan->type == POISON) {
+            score -= 3;
+            if (score < 0) score = 0;
+            slowDownEndTime = clock() + 3 * CLOCKS_PER_SEC;
+        } else if (makanan->type == SpeedBoost) {
+            score += 1;
+            speedBoostEndTime = clock() + 8 * CLOCKS_PER_SEC;
+        }else {
+            score += 1;
+            speedBoostEndTime = clock() + 1 * CLOCKS_PER_SEC;
+        }
+        
+        return true;
+    }
+    
+    return false;
+}
 
 void gambarApel(int x, int y, int ukuran) {
     // ukuran: panjang sisi kotak apel

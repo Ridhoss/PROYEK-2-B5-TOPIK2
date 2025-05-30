@@ -50,7 +50,6 @@ void GrowSnake();                                      // Tambah panjang ular (s
 
 // Collision detection
 void CekTabrakan();                                    // Cek tabrakan dengan dinding/diri sendiri
-bool CekMakanMakanan(MakananStruct *makanan);         // Cek apakah ular makan makanan
 
 // Rendering
 void GambarUlar();                                     // Gambar ular di layar

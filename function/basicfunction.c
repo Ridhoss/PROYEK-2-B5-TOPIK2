@@ -407,7 +407,7 @@ void LoopGame() {
             }
 
             if (currentTime < speedBoostEndTime) {
-                snakeSpeed = 50.0; 
+                snakeSpeed = 70.0; 
             } else if (currentTime < slowDownEndTime) {
                 snakeSpeed = 180.0; 
             } else {
