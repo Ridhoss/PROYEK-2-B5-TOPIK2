@@ -41,6 +41,10 @@ WarnaCustom daftarWarna[] = {
     {"MAROON", 128, 0, 0},
     {"OLIVE", 128, 128, 0},
     {"SILVER", 192, 192, 192},
+    {"DARKGRAY", 64, 64, 64},       
+    {"DARKGREEN", 0, 100, 0},       
+    {"LIGHTYELLOW", 255, 255, 153},
+    {"BADRED", 169, 55, 61},
 };
 
 int AmbilWarna(const char* color) {
@@ -393,12 +397,14 @@ void LoopGame() {
 
             // Makan makanan
             if (CekMakanMakanan(&makanan)) {
-                GenerateRandomPosition(&makanan.x, &makanan.y);
-                makanan.type = GeneratemakananType();
-                makanan.spawnTime = clock();
-                printf("Score sekarang: %d\n", score);
+            if (makanan.type == SpeedBoost) {
+            speedBoostEndTime = clock() + 3 * CLOCKS_PER_SEC;
+            }
 
-                speedBoostEndTime = clock() + 3 * CLOCKS_PER_SEC;
+            GenerateRandomPosition(&makanan.x, &makanan.y);
+            makanan.type = GeneratemakananType();
+            makanan.spawnTime = clock();
+            printf("Score sekarang: %d\n", score);
             }
 
             if (clock() < speedBoostEndTime) {
