@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include <stdbool.h>
 #include "../header/basicfunction.h"
 #include "../header/makanan.h"
@@ -114,10 +115,10 @@ void tampilanAwal() {
                 tampilanArena();
                 break;
             }
-            // if (x >= posisiX && x <= posisiX + tombolLebar && y >= posisiY + 80 && y <= posisiY + 80 + tombolTinggi) {
-            //     tampilanLeaderboardMenu();
-            //     break;
-            // }
+            if (x >= posisiX && x <= posisiX + tombolLebar && y >= posisiY + 80 && y <= posisiY + 80 + tombolTinggi) {
+                tampilanLeaderboardMenu();
+                break;
+            }
             if (x >= posisiX && x <= posisiX + tombolLebar && y >= posisiY + 150 && y <= posisiY + 150 + tombolTinggi) {
                 exit(0);
             }
@@ -421,7 +422,6 @@ void gambarAwan(int x, int y)
 // Fungsi menampilkan tabel leaderboard dengan dummy data
 // Pembuat modul : Salma
 // Dimodifikasi oleh : -
-
 void tampilkanLeaderboard() {
     int kotak_width = 530;
     int kotak_height = 620;
@@ -432,7 +432,7 @@ void tampilkanLeaderboard() {
     int x2 = SCREEN_WIDTH - 20 + spacing;
     int y2 = y1 + kotak_height;
 
-    Kotak(x1, y1, x2, y2, "BLACK");
+    Kotak(x1, y1, x2, y2, "BLACK"); // Kotak utama
     setbkcolor(CYAN);
 
     int imageHeight = 60;
@@ -477,7 +477,150 @@ void tampilkanLeaderboard() {
     
 }
 
+// Prosedur untuk menampilkan leaderboard di arena Menu
+// pembuat modul : Salma
+// Dimodifikasi oleh : -
+void tampilanLeaderboardMenu() {
+    int kotak_width = 360;
+    int kotak_height = 650;
 
+    int x1 = (fullscreen_width - kotak_width) / 2;
+    int y1 = (fullscreen_height - kotak_height) / 2;
+    int x2 = x1 + kotak_width;
+    int y2 = y1 + kotak_height;
+
+    cleardevice();
+    
+    Kotak(0, 0, fullscreen_width, fullscreen_height, "BLACK"); 
+
+    Titik(); 
+    
+    // Background Multi Layer
+    for(int i = 0; i < 20; i++) {
+        Kotak(x1 - i*2, y1 - i*2, x2 + i*2, y2 + i*2, (i % 2 == 0) ? "DARKGRAY" : "WHITE");
+    }
+
+    // Border kotak utama
+    Kotak(x1-3, y1-3, x2+3, y2+3, "BLUE");
+    Kotak(x1-1, y1-1, x2+1, y2+1, "WHITE");
+
+   
+    Kotak(x1 + 10, y1 + 5, x2 - 10, y1 + 75, "DARKGRAY");
+    
+    // Gambar trophy
+    int trophy_x = x1 + 40;
+    setcolor(YELLOW);
+    setfillstyle(SOLID_FILL, YELLOW);
+
+    fillellipse(trophy_x, y1 + 40, 15, 12); //Kepala trophy
+    setfillstyle(SOLID_FILL, BROWN);
+    bar(trophy_x - 8, y1 + 50, trophy_x + 8, y1 + 60); //Batang trophy
+    bar(trophy_x - 15, y1 + 60, trophy_x + 15, y1 + 65); //Dasar trophy
+
+    // Tombol untuk kembali ke menu awal
+    int tombolLebar = 38; 
+    int tombolTinggi = 35;
+    int buttonX = x2 + 2 - tombolLebar + 40 - 2;
+    int buttonY = y1 - 37; 
+
+    tombol(buttonX, buttonY, tombolLebar, tombolTinggi, "RED", "X", 2);
+    
+    // Border button menu awal
+    setcolor(AmbilWarna("BLUE"));
+    setlinestyle(SOLID_LINE, 0, 2);
+    rectangle(buttonX, buttonY, buttonX + tombolLebar, buttonY + tombolTinggi);
+
+    // Judul Leaderboard
+    int lebarTulisan = 200;
+    int posisiTulisanHeader  = x1 + (kotak_width - lebarTulisan) / 2;
+    
+    setbkcolor(DARKGRAY);
+    tulisan(posisiTulisanHeader  + 2, y1 + 32, 0, 0, "BLACK", "LEADERBOARD", 2, Random);
+    tulisan(posisiTulisanHeader , y1 + 30, 0, 0, "YELLOW", "LEADERBOARD", 2, Random);
+
+    int posisiTulisanSubheader = x1 + 80; 
+    tulisan(posisiTulisanSubheader, y1 + 50, 0, 0, "CYAN", "SNACK SNAKE", 1, Random);
+
+    // Header tabel biru
+    int headerY = y1 + 80;
+    Kotak(x1 + 10, headerY, x2 - 10, headerY + 35, "BLUE");
+    
+    // Border header tabel
+    setcolor(WHITE);
+    setlinestyle(SOLID_LINE, 0, 2);
+    rectangle(x1 + 10, headerY, x2 - 10, headerY + 35);
+
+    // Posisi kolom
+    int kolomNoX = x1 + 25;
+    int kolomNamaX = x1 + 70;
+    int kolomSkorX = x1 + 220;
+    int kolomWaktuX = x1 + 280;
+
+    // Header Kolom Teks
+    setbkcolor(BLUE);
+    tulisan(kolomNoX, headerY + 10, 0, 0, "WHITE", "No", 1, Random);
+    tulisan(kolomNamaX, headerY + 10, 0, 0, "WHITE", "NAMA PLAYER", 1, Random);
+    tulisan(kolomSkorX, headerY + 10, 0, 0, "WHITE", "SKOR", 1, Random);
+    tulisan(kolomWaktuX, headerY + 10, 0, 0, "WHITE", "WAKTU", 1, Random);
+
+    int barisTinggi = 35;
+    int awalDataY = headerY + 45;
+    
+    AmbilDataLeaderboard();
+
+    for (int i = 0; i < 15; i++) {
+        int barisY = awalDataY + i * barisTinggi;
+        
+        // Gambar kotak untuk setiap baris
+        const char* warna = (i % 2 == 0) ? "BLACK" : "DARKGRAY";
+        
+        Kotak(x1 + 10, barisY, x2 - 10, barisY + barisTinggi - 5, warna);
+
+        char noStr[10], skorStr[20], waktuStr[15];
+        sprintf(noStr, "%d", i + 1);
+        sprintf(skorStr, "%d", leaderboard[i].skor);
+        sprintf(waktuStr, "%ds", leaderboard[i].waktu);
+
+       const char* textColor = "YELLOW";
+       setcolor(AmbilWarna(textColor));
+       setbkcolor(AmbilWarna(warna));  
+       
+       tulisan(kolomNoX, barisY + 8, 0, 0, textColor, noStr, 1, Random);
+       tulisan(kolomNamaX, barisY + 8, 0, 0, textColor, leaderboard[i].nama, 1, Random);
+       tulisan(kolomSkorX, barisY + 8, 0, 0, textColor, skorStr, 1, Random);
+       tulisan(kolomWaktuX, barisY + 8, 0, 0, textColor, waktuStr, 1, Random);
+
+    }
+
+    int ch;
+    while (1) {
+  
+        if (ismouseclick(WM_LBUTTONDOWN)) {
+            int mouseX, mouseY;
+            getmouseclick(WM_LBUTTONDOWN, mouseX, mouseY);
+            
+            if (mouseX >= buttonX && mouseX <= buttonX + tombolLebar &&
+                mouseY >= buttonY && mouseY <= buttonY + tombolTinggi) {
+                tampilanAwal();
+                return;
+            }
+        }
+        
+        if (kbhit()) {
+            ch = getch();
+            if (ch == 27) {  
+                tampilanAwal();
+                return;
+            }
+        }
+        
+        delay(50);
+    }
+}
+
+// Prosedur untuk menampilkan tampilan panduan bermain
+// Pembuat modul : Salma 
+// Dimodifikasi oleh : -
 void tampilanGuide() {
     cleardevice();
     setbkcolor(BLACK);

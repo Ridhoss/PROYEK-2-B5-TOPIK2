@@ -25,4 +25,6 @@ void tampilkanLeaderboard();
 
 void tampilanGuide();
 
+void tampilanLeaderboardMenu();
+
 #endif   
