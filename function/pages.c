@@ -65,7 +65,7 @@ void tampilanAwal() {
     const char* textImages[3] = {
         "assets/text1.bmp",
         "assets/text2.bmp",
-        "assets/text4.bmp" // Tambahkan assets/text4.bmp untuk Arena (sesuai screenshot "Change arena")
+        "assets/text3.bmp" 
     };
 
     int tombolLebar = 200, tombolTinggi = 50;

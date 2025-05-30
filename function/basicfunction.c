@@ -51,7 +51,9 @@ WarnaCustom daftarWarna[] = {
     {"LIGHTYELLOW", 255, 255, 153},
     {"BADRED", 169, 55, 61},
     {"DARKBROWN", 139, 69, 19}, 
-    {"LIGHTBROWN", 210, 180, 140}
+    {"LIGHTBROWN", 210, 180, 140},
+    {"GRASSGREEN", 123, 179, 105},
+    
 };
 
 int AmbilWarna(const char* color) {

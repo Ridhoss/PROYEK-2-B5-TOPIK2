@@ -263,7 +263,7 @@ void gambarArena(int index) {
             }
             break;
         case 2: // Arena Rumput (Hijau dengan Aksen Rumput)
-            Kotak(20, 60, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "GREEN"); // Base warna hijau
+            Kotak(20, 60, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "GRASSGREEN"); // Base warna hijau
 
             // Tambahkan aksen rumput
             // PERUBAHAN: Hapus srand(time(NULL)) di sini, karena seharusnya hanya dipanggil sekali di awal program (misalnya di main.c)
@@ -311,8 +311,8 @@ void gambarArenaPreview(int index, int x1, int y1, int x2, int y2) {
                 }
             }
             break;
-        case 2: // Arena Rumput (Hijau dengan Aksen Rumput)
-            Kotak(x1, y1, x2, y2, "GREEN"); // Base warna hijau
+            case 2: // Arena Rumput (Hijau dengan Aksen Rumput)
+            Kotak(x1, y1, x2, y2, "GRASSGREEN"); // Base warna hijau
 
             // Tambahkan aksen rumput yang diskalakan
             // PERUBAHAN: Hapus srand(time(NULL)) di sini, karena seharusnya hanya dipanggil sekali di awal program (misalnya di main.c)
