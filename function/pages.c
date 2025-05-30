@@ -15,16 +15,19 @@
 // prosedur untuk tampilan awal
 // pembuat modul : Salma
 void tampilanAwal() {
+    // Set warna latar belakang dan bersihkan layar
+    initwindow(fullscreen_width, fullscreen_height, "Snake Game", -3, -3);
+    setcolor(WHITE);    
     setbkcolor(BLACK);
     cleardevice();
 
-    Titik(); 
+    Titik();
 
     printf("nama : %s\n", nama);
     printf("score: %d\n", lastScore);
     printf("time: %d\n", lastTime);
 
-    tampilanNama(); 
+    tampilanNama();
 
     readimagefile(
         "assets/judul.bmp",
@@ -47,23 +50,22 @@ void tampilanAwal() {
         15, 20,
         15 + musicIconWidth, 20 + musicIconHeight);
 
-    // posisi untuk masing-masing ikon 
+    // posisi untuk masing-masing ikon
     int iconY[3] = {
     bottomY - 2 * (dropdownIconHeight + spacing), // snake
     bottomY - dropdownIconHeight - spacing,       // guide
-    bottomY                                       // arena
+    bottomY                                       // arena (ubah index 2 menjadi arena)
     };
-    
+
 
     readimagefile("assets/snake_logo.bmp", marginLeft, iconY[0], marginLeft + dropdownIconWidth, iconY[0] + dropdownIconHeight);
     readimagefile("assets/guide_logo.bmp", marginLeft, iconY[1], marginLeft + dropdownIconWidth, iconY[1] + dropdownIconHeight);
-    readimagefile("assets/arena_logo.bmp", marginLeft, iconY[2], marginLeft + dropdownIconWidth, iconY[2] + dropdownIconHeight);
+    readimagefile("assets/arena_logo.bmp", marginLeft, iconY[2], marginLeft + dropdownIconWidth, iconY[2] + dropdownIconHeight); // Menggunakan icon arena
 
-   
     const char* textImages[3] = {
         "assets/text1.bmp",
         "assets/text2.bmp",
-        "assets/text3.bmp"
+        "assets/text4.bmp" // Tambahkan assets/text4.bmp untuk Arena (sesuai screenshot "Change arena")
     };
 
     int tombolLebar = 200, tombolTinggi = 50;
@@ -76,7 +78,7 @@ void tampilanAwal() {
 
     bool isHovering[3] = { false, false, false };
 
-   
+
    while (1) {
         int x = mousex();
         int y = mousey();
@@ -92,7 +94,9 @@ void tampilanAwal() {
             int dropX2 = dropX1 + 100;
             int dropY2 = dropY1 + 40;
 
-            if (x >= iconX1 && x <= iconX2 && y >= iconY1 && y <= iconY2) {
+            // Deteksi hover pada ikon ATAU teks
+            if ((x >= iconX1 && x <= iconX2 && y >= iconY1 && y <= iconY2) ||
+                (x >= dropX1 && x <= dropX2 && y >= dropY1 && y <= dropY2)) {
                 if (!isHovering[i]) {
                     setfillstyle(SOLID_FILL, BLACK);
                     bar(dropX1 - 2, dropY1 - 2, dropX2 + 2, dropY2 + 2);
@@ -122,35 +126,35 @@ void tampilanAwal() {
                 exit(0);
             }
 
-            // Cek klik pada dropdown
+            // Cek klik pada dropdown (ikon ATAU teks)
             for (int i = 0; i < 3; i++) {
                 int iconX1 = marginLeft;
                 int iconY1 = iconY[i];
                 int iconX2 = iconX1 + dropdownIconWidth;
                 int iconY2 = iconY1 + dropdownIconHeight;
 
-                // int iconX2 = marginLeft + dropdownIconWidth;
                 int dropX1 = iconX2 + 10;
                 int dropY1 = iconY[i] + (dropdownIconHeight - 40) / 2;
                 int dropX2 = dropX1 + 100;
                 int dropY2 = dropY1 + 40;
 
-                if (x >= iconX1 && x <= iconX2 && y >= iconY1 && y <= iconY2) {
+                if ((x >= iconX1 && x <= iconX2 && y >= iconY1 && y <= iconY2) ||
+                    (x >= dropX1 && x <= dropX2 && y >= dropY1 && y <= dropY2)) { // Perbaikan di sini
                     if (i == 0) {
                         tampilanPlay();
                         return;
                     }else if (i == 1) {
                         tampilanGuide();
                         return;
-                    } 
+                    } else if (i == 2) { // Kondisi untuk pilihan arena
+                        tampilanArenaSelection(); // Panggil fungsi dari makanan.h
+                        return;
+                    }
                 }
-
-               
             }
-                   delay(50);
+            delay(50);
         }
     }
-
 }
 
 // prosedur untuk tampilan nama kanan atas

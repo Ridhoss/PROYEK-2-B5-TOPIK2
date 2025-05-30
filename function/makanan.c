@@ -15,6 +15,7 @@
 #include "../header/stopwatch.h"
 
 int selectedSnakeIndex = 0;
+extern int selectedArenaIndex;
 
 // Fungsi membuat posisi acak
 // pembuat modul : Samudra
@@ -236,4 +237,218 @@ void PlaySpecialsound() {
 
 void PlayPoisonsound() {
     PlaySound(TEXT("assets/sound/poison.wav"), NULL, SND_FILENAME | SND_ASYNC);
+}
+
+void gambarArena(int index) {
+    // Deklarasikan cellSize di luar switch untuk menghindari error jump
+    int cellSize = CELL_SIZE; 
+    
+    switch (index) {
+        case 0: // Arena Normal (Hitam Polos)
+            Kotak(20, 60, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
+            break;
+        case 1: // Arena Kayu (Papan Catur Coklat)
+            Kotak(20, 60, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BROWN"); // Base warna coklat
+            
+            // Gambar pola seperti papan catur
+            for (int y = 60; y < SCREEN_HEIGHT - 20; y += cellSize) {
+                for (int x = 20; x < SCREEN_WIDTH - 20; x += cellSize) {
+                    // Warna bergantian seperti papan catur
+                    if (((x / cellSize) + (y / cellSize)) % 2 == 0) {
+                        Kotak(x, y, x + cellSize, y + cellSize, "BROWN"); // Warna coklat tua
+                    } else {
+                        Kotak(x, y, x + cellSize, y + cellSize, "LIGHTBROWN"); // Warna coklat muda
+                    }
+                }
+            }
+            break;
+        case 2: // Arena Rumput (Hijau dengan Aksen Rumput)
+            Kotak(20, 60, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "GREEN"); // Base warna hijau
+
+            // Tambahkan aksen rumput
+            // PERUBAHAN: Hapus srand(time(NULL)) di sini, karena seharusnya hanya dipanggil sekali di awal program (misalnya di main.c)
+            for (int i = 0; i < 50; i++) { // Jumlah aksen rumput
+                int grassX = 20 + (rand() % ((SCREEN_WIDTH - 40) / 5)) * 5; // Posisi X acak
+                int grassY = 60 + (rand() % ((SCREEN_HEIGHT - 80) / 5)) * 5; // Posisi Y acak
+
+                setcolor(AmbilWarna("DARKGREEN")); // Warna rumput lebih gelap
+                line(grassX, grassY, grassX + 2, grassY - 5);
+                line(grassX, grassY, grassX - 2, grassY - 5);
+            }
+            break;
+        default: // Default ke Normal jika indeks tidak valid
+            Kotak(20, 60, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
+            break;
+    }
+}
+
+// Prosedur untuk menggambar pratinjau arena dalam kotak yang ditentukan
+// Pembuat modul: AI Gemini
+void gambarArenaPreview(int index, int x1, int y1, int x2, int y2) {
+    int previewWidth = x2 - x1;
+    int previewHeight = y2 - y1;
+    // Skala CELL_SIZE agar sesuai dengan ukuran pratinjau yang lebih kecil
+    int scaledCellSize = CELL_SIZE / 4; 
+
+    if (scaledCellSize < 1) scaledCellSize = 1; // Pastikan ukuran sel minimal 1
+
+    switch (index) {
+        case 0: // Arena Normal (Hitam Polos)
+            Kotak(x1, y1, x2, y2, "BLACK");
+            break;
+        case 1: // Arena Kayu (Papan Catur Coklat)
+            Kotak(x1, y1, x2, y2, "BROWN"); // Isi latar belakang dengan satu warna coklat
+            
+            // Gambar pola seperti papan catur yang diskalakan
+            for (int y = y1; y < y2; y += scaledCellSize) {
+                for (int x = x1; x < x2; x += scaledCellSize) {
+                    // Warna bergantian seperti papan catur
+                    if (((x / scaledCellSize) + (y / scaledCellSize)) % 2 == 0) {
+                        Kotak(x, y, x + scaledCellSize, y + scaledCellSize, "BROWN"); // Warna coklat tua
+                    } else {
+                        Kotak(x, y, x + scaledCellSize, y + scaledCellSize, "LIGHTBROWN"); // Warna coklat muda
+                    }
+                }
+            }
+            break;
+        case 2: // Arena Rumput (Hijau dengan Aksen Rumput)
+            Kotak(x1, y1, x2, y2, "GREEN"); // Base warna hijau
+
+            // Tambahkan aksen rumput yang diskalakan
+            // PERUBAHAN: Hapus srand(time(NULL)) di sini, karena seharusnya hanya dipanggil sekali di awal program (misalnya di main.c)
+            for (int i = 0; i < 20; i++) { // Kurangi jumlah aksen untuk pratinjau agar tidak terlalu ramai
+                int grassX = x1 + (rand() % (previewWidth - 4)); // Posisi X acak dalam pratinjau
+                int grassY = y1 + (rand() % (previewHeight - 4)); // Posisi Y acak dalam pratinjau
+
+                setcolor(AmbilWarna("DARKGREEN")); // Warna rumput lebih gelap
+                line(grassX, grassY, grassX + 1, grassY - 2); // Lebih kecil
+                line(grassX, grassY, grassX - 1, grassY - 2); // Lebih kecil
+            }
+            break;
+        default: // Default ke Normal jika indeks tidak valid
+            Kotak(x1, y1, x2, y2, "BLACK");
+            break;
+    }
+}
+
+
+// Prosedur untuk tampilan pemilihan arena
+// Pembuat modul: AI Gemini (dipindahkan dari pages.c)
+void tampilanArenaSelection() {
+    setbkcolor(BLACK);
+    cleardevice();
+
+    Titik(); // Fungsi dari pages.h
+
+    readimagefile(
+        "assets/judul.bmp",
+        (fullscreen_width - 300) / 2,
+        10,
+        (fullscreen_width - 300) / 2 + 300,
+        10 + 207
+    );
+
+    const char* arenaNames[3] = { // Ubah menjadi 3 arena
+        "NORMAL",
+        "KAYU",
+        "RUMPUT"
+    };
+
+    int currentArena = 0;
+    int totalArenas = 3; // Ubah menjadi 3
+
+    int panahWidth = 50, panahHeight = 20;
+    int arenaPreviewWidth = 300, arenaPreviewHeight = 200; // Ukuran preview arena
+
+    int centerX = fullscreen_width / 2;
+    int spacing = 50;
+    int previewY = fullscreen_height / 2 - arenaPreviewHeight / 2 - 50;
+
+    int tombolLebar = 150, tombolTinggi = 50;
+    int posisiX = (fullscreen_width - tombolLebar) / 2;
+    int posisiY = previewY + arenaPreviewHeight + 80;
+
+
+    int kiriX1 = centerX - arenaPreviewWidth / 2 - spacing - panahWidth;
+    int kiriY1 = previewY + (arenaPreviewHeight - panahHeight) / 2;
+    int kiriX2 = kiriX1 + panahWidth;
+    int kiriY2 = kiriY1 + panahHeight;
+
+    int kananX1 = centerX + arenaPreviewWidth / 2 + spacing;
+    int kananY1 = kiriY1;
+    int kananX2 = kananX1 + panahWidth;
+    int kananY2 = kananY1 + panahHeight;
+
+    readimagefile("assets/pkiri.bmp", kiriX1, kiriY1, kiriX2, kiriY2);
+    readimagefile("assets/pkanan.bmp", kananX1, kananY1, kananX2, kananY2);
+    tombol(posisiX, posisiY, tombolLebar, tombolTinggi, "GREEN", "PILIH", 3);
+
+    // Hitung koordinat pratinjau arena
+    int tempArenaX1 = centerX - arenaPreviewWidth / 2;
+    int tempArenaY1 = previewY;
+    int tempArenaX2 = centerX + arenaPreviewWidth / 2;
+    int tempArenaY2 = previewY + arenaPreviewHeight;
+
+    // Gambar border untuk pratinjau
+    Kotak(tempArenaX1, tempArenaY1, tempArenaX2, tempArenaY2, "WHITE");
+    setfillstyle(SOLID_FILL, BLACK);
+    bar(tempArenaX1 + 5, tempArenaY1 + 5, tempArenaX2 - 5, tempArenaY2 - 5); // Bersihkan area di dalam border
+    
+    // Tampilkan nama arena
+    setbkcolor(BLACK);
+    tulisan(centerX, previewY + arenaPreviewHeight + 20, 0, 0, "WHITE", arenaNames[currentArena], 3, Center);
+
+    // PERUBAHAN: Panggil fungsi pratinjau arena
+    gambarArenaPreview(currentArena, tempArenaX1 + 5, tempArenaY1 + 5, tempArenaX2 - 5, tempArenaY2 - 5);
+
+    while (1) {
+        int x, y;
+        if (ismouseclick(WM_LBUTTONDOWN)) {
+            getmouseclick(WM_LBUTTONDOWN, x, y);
+
+            if (x >= kiriX1 && x <= kiriX2 && y >= kiriY1 && y <= kiriY2) {
+                currentArena = (currentArena - 1 + totalArenas) % totalArenas;
+                // Bersihkan area pratinjau dan nama arena
+                setfillstyle(SOLID_FILL, BLACK);
+                bar(tempArenaX1 + 1, tempArenaY1 + 1, tempArenaX2 - 1, tempArenaY2 - 1); // Bersihkan area pratinjau
+                bar(centerX - textwidth((char*)arenaNames[totalArenas-1])/2, previewY + arenaPreviewHeight + 10, centerX + textwidth((char*)arenaNames[totalArenas-1])/2, previewY + arenaPreviewHeight + 50); // Bersihkan nama arena
+
+                // Gambar border lagi
+                Kotak(tempArenaX1, tempArenaY1, tempArenaX2, tempArenaY2, "WHITE");
+                setfillstyle(SOLID_FILL, BLACK);
+                bar(tempArenaX1 + 5, tempArenaY1 + 5, tempArenaX2 - 5, tempArenaY2 - 5);
+
+                // Tampilkan nama arena baru
+                setbkcolor(BLACK);
+                tulisan(centerX, previewY + arenaPreviewHeight + 20, 0, 0, "WHITE", arenaNames[currentArena], 3, Center);
+
+                // PERUBAHAN: Gambar pratinjau arena baru
+                gambarArenaPreview(currentArena, tempArenaX1 + 5, tempArenaY1 + 5, tempArenaX2 - 5, tempArenaY2 - 5);
+
+            } else if (x >= kananX1 && x <= kananX2 && y >= kananY1 && y <= kananY2) {
+                currentArena = (currentArena + 1) % totalArenas;
+                // Bersihkan area pratinjau dan nama arena
+                setfillstyle(SOLID_FILL, BLACK);
+                bar(tempArenaX1 + 1, tempArenaY1 + 1, tempArenaX2 - 1, tempArenaY2 - 1); // Bersihkan area pratinjau
+                bar(centerX - textwidth((char*)arenaNames[totalArenas-1])/2, previewY + arenaPreviewHeight + 10, centerX + textwidth((char*)arenaNames[totalArenas-1])/2, previewY + arenaPreviewHeight + 50); // Bersihkan nama arena
+
+                // Gambar border lagi
+                Kotak(tempArenaX1, tempArenaY1, tempArenaX2, tempArenaY2, "WHITE");
+                setfillstyle(SOLID_FILL, BLACK);
+                bar(tempArenaX1 + 5, tempArenaY1 + 5, tempArenaX2 - 5, tempArenaY2 - 5);
+
+                // Tampilkan nama arena baru
+                setbkcolor(BLACK);
+                tulisan(centerX, previewY + arenaPreviewHeight + 20, 0, 0, "WHITE", arenaNames[currentArena], 3, Center);
+
+                // PERUBAHAN: Gambar pratinjau arena baru
+                gambarArenaPreview(currentArena, tempArenaX1 + 5, tempArenaY1 + 5, tempArenaX2 - 5, tempArenaY2 - 5);
+            } else if (x >= posisiX && x <= posisiX + tombolLebar && y >= posisiY && y <= posisiY + tombolTinggi) {
+                selectedArenaIndex = currentArena; // Simpan pilihan arena
+                tampilanAwal(); // Kembali ke tampilan awal setelah memilih
+                break;
+            }
+        }
+        delay(30);
+    }
 }

@@ -26,6 +26,8 @@ double slowDownEndTime = 0;
 int fullscreen_width = 640;
 int fullscreen_height = 480;
 
+int selectedArenaIndex = 0;
+
 LeaderboardEntry leaderboard[MAX_LEADERBOARD];
 int jumlahDataLeaderboard = 0;
 
@@ -48,6 +50,8 @@ WarnaCustom daftarWarna[] = {
     {"DARKGREEN", 0, 100, 0},       
     {"LIGHTYELLOW", 255, 255, 153},
     {"BADRED", 169, 55, 61},
+    {"DARKBROWN", 139, 69, 19}, 
+    {"LIGHTBROWN", 210, 180, 140}
 };
 
 int AmbilWarna(const char* color) {
@@ -356,7 +360,7 @@ void LoopGame() {
     setactivepage(0);
     cleardevice();
 
-    Kotak(20, 60, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
+    gambarArena(selectedArenaIndex);
     tombol(520, 15, 100, 30, "DARKGRAY", "PAUSE", 2);
     tampilkanLeaderboard();
 

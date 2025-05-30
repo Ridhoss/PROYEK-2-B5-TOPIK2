@@ -52,4 +52,8 @@ void PlayNormalsound();
 void PlaySpecialsound();
 void PlayPoisonsound();
 
+void gambarArenaPreview(int index, int x1, int y1, int x2, int y2);
+void gambarArena(int index);
+void tampilanArenaSelection();
+
 #endif   

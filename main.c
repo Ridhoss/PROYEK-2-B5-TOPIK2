@@ -9,6 +9,7 @@
 #include "header/stopwatch.h"
 
 int main() {
+    srand(time(NULL));
     // Ambil resolusi layar penuh
     fullscreen_width = GetSystemMetrics(SM_CXSCREEN);
     fullscreen_height = GetSystemMetrics(SM_CYSCREEN);
