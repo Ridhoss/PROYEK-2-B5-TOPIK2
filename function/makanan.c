@@ -4,6 +4,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
+#include <windows.h>
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib")
+
 #include "../header/basicfunction.h"
 #include "../header/makanan.h"
 #include "../header/pages.h"
@@ -79,17 +83,19 @@ bool CekMakanMakanan(MakananStruct *makanan) {
         // Update score berdasarkan jenis makanan
         if (makanan->type == SPECIAL) {
             score += 5;
-            speedBoostEndTime = clock() + 1 * CLOCKS_PER_SEC;
+            PlaySpecialsound();
         } else if (makanan->type == POISON) {
             score -= 3;
             if (score < 0) score = 0;
+            PlayPoisonsound();
             slowDownEndTime = clock() + 3 * CLOCKS_PER_SEC;
         } else if (makanan->type == SpeedBoost) {
             score += 1;
-            speedBoostEndTime = clock() + 8 * CLOCKS_PER_SEC;
+            speedBoostEndTime = clock() + 3 * CLOCKS_PER_SEC;
+            PlaySpecialsound();
         }else {
             score += 1;
-            speedBoostEndTime = clock() + 1 * CLOCKS_PER_SEC;
+            PlayNormalsound();
         }
         
         return true;
@@ -218,4 +224,16 @@ void gambarSpeedBoost(int x, int y, int ukuran) {
     setcolor(warnaDaun);
     line(x + ukuran/2, y - ukuran/3, x + ukuran/2 + ukuran/4, y - ukuran/2);
 
+}
+
+void PlayNormalsound() {
+    PlaySound(TEXT("assets/sound/normal.wav"), NULL, SND_FILENAME | SND_ASYNC);
+}
+
+void PlaySpecialsound() {
+    PlaySound(TEXT("assets/sound/spesial.wav"), NULL, SND_FILENAME | SND_ASYNC);
+}
+
+void PlayPoisonsound() {
+    PlaySound(TEXT("assets/sound/poison.wav"), NULL, SND_FILENAME | SND_ASYNC);
 }

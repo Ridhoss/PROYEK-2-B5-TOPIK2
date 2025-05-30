@@ -48,4 +48,8 @@ void gambarSpeedBoost(int x, int y, int ukuran);
 const char* GetWarnaKepala(int index);
 const char* GetWarnaBadan(int index);
 
+void PlayNormalsound();
+void PlaySpecialsound();
+void PlayPoisonsound();
+
 #endif   
