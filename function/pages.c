@@ -27,7 +27,7 @@ void tampilanAwal() {
     printf("score: %d\n", lastScore);
     printf("time: %d\n", lastTime);
 
-    tampilanNama();
+    tampilanNamaMenu();
 
     readimagefile(
         "assets/judul.bmp",
@@ -54,13 +54,13 @@ void tampilanAwal() {
     int iconY[3] = {
     bottomY - 2 * (dropdownIconHeight + spacing), // snake
     bottomY - dropdownIconHeight - spacing,       // guide
-    bottomY                                       // arena (ubah index 2 menjadi arena)
+    bottomY                                       // arena 
     };
 
 
     readimagefile("assets/snake_logo.bmp", marginLeft, iconY[0], marginLeft + dropdownIconWidth, iconY[0] + dropdownIconHeight);
     readimagefile("assets/guide_logo.bmp", marginLeft, iconY[1], marginLeft + dropdownIconWidth, iconY[1] + dropdownIconHeight);
-    readimagefile("assets/arena_logo.bmp", marginLeft, iconY[2], marginLeft + dropdownIconWidth, iconY[2] + dropdownIconHeight); // Menggunakan icon arena
+    readimagefile("assets/arena_logo.bmp", marginLeft, iconY[2], marginLeft + dropdownIconWidth, iconY[2] + dropdownIconHeight);
 
     const char* textImages[3] = {
         "assets/text1.bmp",
@@ -112,6 +112,7 @@ void tampilanAwal() {
             }
         }
 
+        // Cek klik mouse pada tombol
         if (ismouseclick(WM_LBUTTONDOWN)) {
             getmouseclick(WM_LBUTTONDOWN, x, y);
             if (x >= posisiX && x <= posisiX + tombolLebar && y >= posisiY && y <= posisiY + tombolTinggi) {
@@ -126,7 +127,7 @@ void tampilanAwal() {
                 exit(0);
             }
 
-            // Cek klik pada dropdown (ikon ATAU teks)
+            // Cek klik pada dropdown
             for (int i = 0; i < 3; i++) {
                 int iconX1 = marginLeft;
                 int iconY1 = iconY[i];
@@ -159,7 +160,7 @@ void tampilanAwal() {
 
 // prosedur untuk tampilan nama kanan atas
 // pembuat modul : Salma
-void tampilanNama() {
+void tampilanNamaMenu() {
     int kotakLebar = 150;
     int kotakTinggi = 40;
 
@@ -169,10 +170,11 @@ void tampilanNama() {
     int kotakX2 = fullscreen_width - margin;
     int kotakY2 = kotakY1 + kotakTinggi;
 
-    
+    // Gambar kotak nama
     setfillstyle(SOLID_FILL, BLACK); 
     bar(kotakX1, kotakY1, kotakX2, kotakY2);
 
+    // Gambar border kotak
     setcolor(WHITE); 
     rectangle(kotakX1, kotakY1, kotakX2, kotakY2);
 
@@ -226,7 +228,6 @@ void tampilanSkin() {
     int posisiX = (fullscreen_width - tombolLebar) / 2;
     int posisiY = iconY + snakeHeight + 80;
 
-
     int kiriX1 = centerX - snakeWidth / 2 - spacing - panahWidth;
     int kiriY1 = iconY + (snakeHeight - panahHeight) / 2;
     int kiriX2 = kiriX1 + panahWidth;
@@ -237,7 +238,6 @@ void tampilanSkin() {
     int kananX2 = kananX1 + panahWidth;
     int kananY2 = kananY1 + panahHeight;
 
-    
     readimagefile("assets/pkiri.bmp", kiriX1, kiriY1, kiriX2, kiriY2);
     readimagefile("assets/pkanan.bmp", kananX1, kananY1, kananX2, kananY2);
     tombol(posisiX, posisiY, tombolLebar, tombolTinggi, "GREEN", "Play", 3);
@@ -316,7 +316,8 @@ void tampilanArena()
 
     tombol(520, 15, 100, 30, "DARKGRAY", "PAUSE", 2);
 
-    // Tambahkan garis putih (border)
+    tampilanNamaArena();
+    // Gambar border kotak
     setcolor(BLACK);
     rectangle(520, 15, 620, 45);
     
@@ -329,6 +330,45 @@ void tampilanArena()
     // Mulai loop game
     LoopGame();
 }
+
+// Prosedur untuk menampilkan nama pemain di layar arena 
+// Pembuat modul: Salma
+void tampilanNamaArena() {
+    int KOTAK_WIDTH = 530;
+    int SPACING = 600;
+    int KOTAK_TINGGI = 50;
+    int LEADERBOARD_Y = 150;
+    int MARGIN_ATAS = 70;
+    
+    // Hitung koordinat kotak nama di kanan atas layar
+    int kotakX1 = SCREEN_WIDTH - KOTAK_WIDTH - 20 + SPACING;
+    int kotakY1 = LEADERBOARD_Y - MARGIN_ATAS;
+    int kotakX2 = kotakX1 + KOTAK_WIDTH;
+    int kotakY2 = kotakY1 + KOTAK_TINGGI;
+    
+    // Gambar kotak nama pemain
+    Kotak(kotakX1, kotakY1, kotakX2, kotakY2, "DARKBLUE");
+    
+    // Gambar border utama
+    setcolor(BLACK);
+    setlinestyle(SOLID_LINE, 0, 3);
+    rectangle(kotakX1, kotakY1, kotakX2, kotakY2);
+    
+    // Gambar inner border
+    setcolor(AmbilWarna("LIGHTBLUE"));
+    setlinestyle(SOLID_LINE, 0, 1);
+    rectangle(kotakX1 + 2, kotakY1 + 2, kotakX2 - 2, kotakY2 - 2);
+
+    // Tampilkan nama pemain di dalam kotak
+    char displayText[100];
+    sprintf(displayText, "PLAYER: %s", nama);
+    
+    setbkcolor(AmbilWarna("DARKBLUE"));
+    
+    // Gambar teks di tengah kotak
+    tulisan(kotakX1, kotakY1, KOTAK_WIDTH, KOTAK_TINGGI, "BLACK", displayText, 2, Center);
+}
+
 
 // prosedur untuk tampilan popup saat game di pause
 // pembuat modul : Salma
@@ -431,8 +471,6 @@ void gambarAwan(int x, int y)
 
 // Prosedur untuk menampilkan leaderboard di arena main
 // pembuat modul : Salma
-// Fungsi menampilkan tabel leaderboard dengan dummy data
-// Pembuat modul : Salma
 // Dimodifikasi oleh : -
 void tampilanLeaderboard() {
     int kotak_width = 530;
@@ -560,6 +598,7 @@ void tampilanLeaderboardMenu() {
     int buttonX = x2 + 2 - tombolLebar + 40 - 2;
     int buttonY = y1 - 37; 
 
+    // Gambar Button untuk kembali ke menu awal
     tombol(buttonX, buttonY, tombolLebar, tombolTinggi, "RED", "X", 2);
     
     // Border button menu awal
@@ -567,7 +606,7 @@ void tampilanLeaderboardMenu() {
     setlinestyle(SOLID_LINE, 0, 2);
     rectangle(buttonX, buttonY, buttonX + tombolLebar, buttonY + tombolTinggi);
 
-    // Judul Leaderboard
+    // Ukuran judul Leaderboard
     int lebarTulisan = 200;
     int posisiTulisanHeader  = x1 + (kotak_width - lebarTulisan) / 2;
     
