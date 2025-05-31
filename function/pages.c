@@ -314,7 +314,11 @@ void tampilanArena()
 
     Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
 
-    tombol(520, 15, 100, 30, "GREEN", "PAUSE", 2);
+    tombol(520, 15, 100, 30, "DARKGRAY", "PAUSE", 2);
+
+    // Tambahkan garis putih (border)
+    setcolor(BLACK);
+    rectangle(520, 15, 620, 45);
     
     tampilanLeaderboard();
     setbkcolor(AmbilWarna("LIGHTGRAY"));
@@ -325,7 +329,6 @@ void tampilanArena()
     // Mulai loop game
     LoopGame();
 }
-
 
 // prosedur untuk tampilan popup saat game di pause
 // pembuat modul : Salma

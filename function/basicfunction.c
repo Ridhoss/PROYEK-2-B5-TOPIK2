@@ -417,6 +417,11 @@ void LoopGame() {
 
     gambarArena(selectedArenaIndex);
     tombol(520, 15, 100, 30, "DARKGRAY", "PAUSE", 2);
+
+    // Tambahkan garis putih (border)
+    setcolor(BLACK);
+    rectangle(520, 15, 620, 45);
+
     tampilanLeaderboard();
 
     getimage(0, 0, arenaWidth, arenaHeight, arenaBuffer); // simpan sebagai buffer statis
