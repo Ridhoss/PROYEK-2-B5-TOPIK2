@@ -309,7 +309,7 @@ void tampilanSkin() {
 // pembuat modul : Salma
 void tampilanArena() 
 {
-    setbkcolor(CYAN);
+    setbkcolor(LIGHTGRAY);
     cleardevice();
 
     Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
@@ -317,7 +317,7 @@ void tampilanArena()
     tombol(520, 15, 100, 30, "GREEN", "PAUSE", 2);
     
     tampilanLeaderboard();
-    setbkcolor(AmbilWarna("CYAN"));
+    setbkcolor(AmbilWarna("LIGHTGRAY"));
 
     // Inisialisasi ular
     InitUlar();
@@ -329,21 +329,26 @@ void tampilanArena()
 
 // prosedur untuk tampilan popup saat game di pause
 // pembuat modul : Salma
-void PopUpPause() 
-{
+void PopUpPause() {
     int popupX = SCREEN_WIDTH / 4;
     int popupY = SCREEN_HEIGHT / 4;
     int popupWidth = SCREEN_WIDTH / 2;
     int popupHeight = SCREEN_HEIGHT / 2;
 
-    Kotak(popupX, popupY, popupX + popupWidth, popupY + popupHeight, "CYAN");
-    setbkcolor(CYAN); 
-    tulisan(popupX + popupWidth / 2, popupY + 50, 0, 0, "GREY", "GAME PAUSED", 5, Center);
+    
+    Kotak(popupX, popupY, popupX + popupWidth, popupY + popupHeight, "LIGHTGRAY");
+    Kotak(popupX + 5, popupY + 5, popupX + popupWidth - 5, popupY + 40, "GRAY");
+
+    setcolor(AmbilWarna("GRAY"));
+    setlinestyle(SOLID_LINE, 0, 4);
+    rectangle(popupX, popupY, popupX + popupWidth, popupY + popupHeight);
+
+    setbkcolor(AmbilWarna("LIGHTGRAY"));
+    tulisan(popupX + popupWidth / 2, popupY + 80, 0, 0, "BLACK", "GAME PAUSED", 5, Center);
     tombol(popupX + (popupWidth / 2) - 50, popupY + popupHeight / 2 - 20, 100, 40, "GREEN", "RESUME", 2);
     tombol(popupX + (popupWidth / 2) - 50, popupY + popupHeight / 2 + 30, 100, 40, "RED", "EXIT", 2);
-    setbkcolor(CYAN);
+   
 }
-
 
 // prosedur untuk tampilan input nama
 // pembuat modul : Salma
