@@ -282,8 +282,6 @@ void gambarArena(int index) {
     }
 }
 
-// Prosedur untuk menggambar pratinjau arena dalam kotak yang ditentukan
-// Pembuat modul: AI Gemini
 void gambarArenaPreview(int index, int x1, int y1, int x2, int y2) {
     int previewWidth = x2 - x1;
     int previewHeight = y2 - y1;
@@ -332,8 +330,6 @@ void gambarArenaPreview(int index, int x1, int y1, int x2, int y2) {
 }
 
 
-// Prosedur untuk tampilan pemilihan arena
-// Pembuat modul: AI Gemini (dipindahkan dari pages.c)
 void tampilanArenaSelection() {
     setbkcolor(BLACK);
     cleardevice();
