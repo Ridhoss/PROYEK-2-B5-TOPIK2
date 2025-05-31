@@ -10,7 +10,7 @@ void tampilanPlay();
 
 void tampilanArena();
 
-void tampilanPlay();
+void tampilanSkin();
 
 void PopUpPause();
 
@@ -20,7 +20,7 @@ void Titik();
 
 void gambarAwan(int x, int y);
 
-void tampilkanLeaderboard();
+void tampilanLeaderboard();
 
 void tampilanGuide();
 
