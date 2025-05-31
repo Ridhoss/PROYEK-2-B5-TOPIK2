@@ -20,9 +20,18 @@ extern int selectedArenaIndex;
 // Fungsi membuat posisi acak
 // pembuat modul : Samudra
 void GenerateRandomPosition(int *x, int *y) {
-    *x = 20 + (rand() % ((SCREEN_WIDTH - 40) / 20)) * 20;
-    *y = 80 + (rand() % ((SCREEN_HEIGHT - 80) / 20)) * 20;
+    int min_x = 20;
+    int max_x = SCREEN_WIDTH - 20;
+    int min_y = 80;
+    int max_y = SCREEN_HEIGHT - 20;
+
+    int cols = (max_x - min_x) / 20;
+    int rows = (max_y - min_y) / 20;
+
+    *x = min_x + (rand() % cols) * 20;
+    *y = min_y + (rand() % rows) * 20;
 }
+
 
 // Fungsi untuk menentukan jenis makanan secara acak
 // pembuat modul : Samudra
