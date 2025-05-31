@@ -1,5 +1,5 @@
-#ifndef ULAR_H
-#define ULAR_H
+#ifndef DIMAS_H
+#define DIMAS_H
 #include <graphics.h>
 #include <stdbool.h>
 

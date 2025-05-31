@@ -1,5 +1,5 @@
-#ifndef STOPWATCH_H
-#define STOPWATCH_H
+#ifndef AKMAL_H
+#define AKMAL_H
 #include <graphics.h>
 
 extern time_t start_time;

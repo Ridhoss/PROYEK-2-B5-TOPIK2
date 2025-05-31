@@ -1,5 +1,5 @@
-#ifndef BASICFUNCTION_H
-#define BASICFUNCTION_H
+#ifndef RIDHO_H
+#define RIDHO_H
 #include <graphics.h>
 
 extern bool paused;

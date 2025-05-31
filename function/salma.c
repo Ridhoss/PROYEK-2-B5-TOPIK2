@@ -5,11 +5,11 @@
 #include <time.h>
 #include <math.h>
 #include <stdbool.h>
-#include "../header/basicfunction.h"
-#include "../header/makanan.h"
-#include "../header/pages.h"
-#include "../header/ular.h"
-#include "../header/stopwatch.h"
+#include "../header/ridho.h"
+#include "../header/samudra.h"
+#include "../header/salma.h"
+#include "../header/dimas.h"
+#include "../header/akmal.h"
 
 
 // prosedur untuk tampilan awal
@@ -309,7 +309,7 @@ void tampilanSkin() {
 // pembuat modul : Salma
 void tampilanArena() 
 {
-    setbkcolor(LIGHTGRAY);
+    setbkcolor(AmbilWarna("DARKBROWN"));
     cleardevice();
 
     Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
@@ -321,7 +321,7 @@ void tampilanArena()
     rectangle(520, 15, 620, 45);
     
     tampilanLeaderboard();
-    setbkcolor(AmbilWarna("LIGHTGRAY"));
+    setbkcolor(AmbilWarna("DARKBROWN"));
 
     // Inisialisasi ular
     InitUlar();

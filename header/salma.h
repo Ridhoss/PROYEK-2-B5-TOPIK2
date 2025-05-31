@@ -1,5 +1,5 @@
-#ifndef PAGES_H
-#define PAGES_H
+#ifndef SALMA_H
+#define SALMA_H
 #include <graphics.h>
 
 void tampilanAwal();

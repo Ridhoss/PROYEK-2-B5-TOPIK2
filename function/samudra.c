@@ -6,13 +6,14 @@
 #include <stdbool.h>
 #include <windows.h>
 #include <mmsystem.h>
+
 #pragma comment(lib, "winmm.lib")
 
-#include "../header/basicfunction.h"
-#include "../header/makanan.h"
-#include "../header/pages.h"
-#include "../header/ular.h"
-#include "../header/stopwatch.h"
+#include "../header/ridho.h"
+#include "../header/samudra.h"
+#include "../header/salma.h"
+#include "../header/dimas.h"
+#include "../header/akmal.h"
 
 int selectedSnakeIndex = 0;
 extern int selectedArenaIndex;

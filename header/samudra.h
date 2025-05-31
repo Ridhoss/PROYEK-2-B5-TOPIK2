@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAKANAN_H
-#define MAKANAN_H
+#ifndef SAMUDRA_H
+#define SAMUDRA_H
 #include <graphics.h>
 #include <time.h>
 

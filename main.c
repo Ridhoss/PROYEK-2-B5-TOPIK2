@@ -2,11 +2,11 @@
 #include <conio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "header/basicfunction.h"
-#include "header/pages.h"
-#include "header/makanan.h"
-#include "header/ular.h"
-#include "header/stopwatch.h"
+#include "header/ridho.h"
+#include "header/samudra.h"
+#include "header/salma.h"
+#include "header/dimas.h"
+#include "header/akmal.h"
 
 int main() {
     srand(time(NULL));
