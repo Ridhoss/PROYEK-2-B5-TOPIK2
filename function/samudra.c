@@ -73,8 +73,8 @@ void Tampilkanscore()
     sprintf(scoreText, "Score: %d", score);
 
     // Set warna teks dan latar belakang agar terlihat jelas
-    setcolor(WHITE);
-    setbkcolor(CYAN);
+    setcolor(BLACK);
+    setbkcolor(LIGHTGRAY);
     settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 
     // Tampilkan teks score di layar
@@ -250,47 +250,52 @@ void PlayPoisonsound() {
 }
 
 void gambarArena(int index) {
-    // Deklarasikan cellSize di luar switch untuk menghindari error jump
-    int cellSize = CELL_SIZE; 
-    
+    int cellSize = CELL_SIZE;
+
     switch (index) {
         case 0: // Arena Normal (Hitam Polos)
-            Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
+            Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK"); 
             break;
         case 1: // Arena Kayu (Papan Catur Coklat)
-            Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BROWN"); // Base warna coklat
-            
+            Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BROWN"); // Base warna coklat 
+
             // Gambar pola seperti papan catur
-            for (int y = 80; y < SCREEN_HEIGHT - 20; y += cellSize) {
-                for (int x = 20; x < SCREEN_WIDTH - 20; x += cellSize) {
+            for (int y = 80; y < SCREEN_HEIGHT - 20; y += cellSize) { 
+                for (int x = 20; x < SCREEN_WIDTH - 20; x += cellSize) { 
                     // Warna bergantian seperti papan catur
-                    if (((x / cellSize) + (y / cellSize)) % 2 == 0) {
-                        Kotak(x, y, x + cellSize, y + cellSize, "BROWN"); // Warna coklat tua
+                    if (((x / cellSize) + (y / cellSize)) % 2 == 0) { 
+                        Kotak(x, y, x + cellSize, y + cellSize, "BROWN"); // Warna coklat tua //
                     } else {
-                        Kotak(x, y, x + cellSize, y + cellSize, "LIGHTBROWN"); // Warna coklat muda
+                        Kotak(x, y, x + cellSize, y + cellSize, "LIGHTBROWN"); // Warna coklat muda //
                     }
                 }
             }
             break;
         case 2: // Arena Rumput (Hijau dengan Aksen Rumput)
-            Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "GRASSGREEN"); // Base warna hijau
+            Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "GRASSGREEN"); // Base warna hijau //
 
             // Tambahkan aksen rumput
-            // PERUBAHAN: Hapus srand(time(NULL)) di sini, karena seharusnya hanya dipanggil sekali di awal program (misalnya di main.c)
-            for (int i = 0; i < 50; i++) { // Jumlah aksen rumput
-                int grassX = 20 + (rand() % ((SCREEN_WIDTH - 40) / 5)) * 5; // Posisi X acak
-                int grassY = 80 + (rand() % ((SCREEN_HEIGHT - 80) / 5)) * 5; // Posisi Y acak
+            for (int i = 0; i < 50; i++) { // Jumlah aksen rumput //
+                int grassX = 20 + (rand() % ((SCREEN_WIDTH - 40) / 5)) * 5; // Posisi X acak //
+                int grassY = 80 + (rand() % ((SCREEN_HEIGHT - 80) / 5)) * 5; // Posisi Y acak //
 
                 setcolor(AmbilWarna("DARKGREEN")); // Warna rumput lebih gelap
-                line(grassX, grassY, grassX + 2, grassY - 5);
-                line(grassX, grassY, grassX - 2, grassY - 5);
+                line(grassX, grassY, grassX + 2, grassY - 5); 
+                line(grassX, grassY, grassX - 2, grassY - 5); 
             }
             break;
         default: // Default ke Normal jika indeks tidak valid
-            Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
+            Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK"); 
             break;
     }
+    // Tambahkan border kuning untuk semua arena
+    setcolor(AmbilWarna("YELLOW"));
+    setlinestyle(SOLID_LINE, 0, 2); 
+    rectangle(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20);
 }
+
+
+
 
 void gambarArenaPreview(int index, int x1, int y1, int x2, int y2) {
     int previewWidth = x2 - x1;
@@ -344,7 +349,7 @@ void tampilanArenaSelection() {
     setbkcolor(BLACK);
     cleardevice();
 
-    Titik(); // Fungsi dari pages.h
+    Titik(); 
 
     readimagefile(
         "assets/judul.bmp",
@@ -354,7 +359,7 @@ void tampilanArenaSelection() {
         10 + 207
     );
 
-    const char* arenaNames[3] = { // Ubah menjadi 3 arena
+    const char* arenaNames[3] = { 
         "NORMAL",
         "KAYU",
         "RUMPUT"
@@ -404,7 +409,6 @@ void tampilanArenaSelection() {
     setbkcolor(BLACK);
     tulisan(centerX, previewY + arenaPreviewHeight + 20, 0, 0, "WHITE", arenaNames[currentArena], 3, Center);
 
-    // PERUBAHAN: Panggil fungsi pratinjau arena
     gambarArenaPreview(currentArena, tempArenaX1 + 5, tempArenaY1 + 5, tempArenaX2 - 5, tempArenaY2 - 5);
 
     while (1) {
@@ -446,8 +450,6 @@ void tampilanArenaSelection() {
                 // Tampilkan nama arena baru
                 setbkcolor(BLACK);
                 tulisan(centerX, previewY + arenaPreviewHeight + 20, 0, 0, "WHITE", arenaNames[currentArena], 3, Center);
-
-                // PERUBAHAN: Gambar pratinjau arena baru
                 gambarArenaPreview(currentArena, tempArenaX1 + 5, tempArenaY1 + 5, tempArenaX2 - 5, tempArenaY2 - 5);
             } else if (x >= posisiX && x <= posisiX + tombolLebar && y >= posisiY && y <= posisiY + tombolTinggi) {
                 selectedArenaIndex = currentArena; // Simpan pilihan arena
@@ -457,4 +459,8 @@ void tampilanArenaSelection() {
         }
         delay(30);
     }
+}
+
+void PlayDeathsound() {
+    PlaySound(TEXT("assets/sound/death.wav"), NULL, SND_FILENAME | SND_ASYNC);
 }

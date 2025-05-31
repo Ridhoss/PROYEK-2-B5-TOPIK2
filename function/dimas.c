@@ -223,6 +223,8 @@ void PopUpGameOver() {
     int popupWidth = SCREEN_WIDTH / 2;
     int popupHeight = SCREEN_HEIGHT / 2;
 
+    PlayDeathsound();
+
     // Gambar kotak popup dengan style yang sama seperti popup pause
     Kotak(popupX, popupY, popupX + popupWidth, popupY + popupHeight, "CYAN");
     setbkcolor(CYAN); 
