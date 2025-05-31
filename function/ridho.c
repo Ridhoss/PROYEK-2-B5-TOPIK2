@@ -329,7 +329,7 @@ void Tombolpause() {
 // pembuat modul : Salma
 // dimodifikasi oleh : -
 void HandlePause(int x, int y) {
-    if (!paused && x >= 520 && x <= 620 && y >= 15 && y <= 45) {
+    if (!paused && x >= 780 && x <= 880 && y >= 15 && y <= 45) {
         Tombolpause();
     } else if (paused) {
         int popupX = SCREEN_WIDTH / 4;
@@ -416,11 +416,11 @@ void LoopGame() {
     cleardevice();
 
     gambarArena(selectedArenaIndex);
-    tombol(520, 15, 100, 30, "DARKGRAY", "PAUSE", 2);
+    tombol(780, 15, 100, 30, "DARKGRAY", "PAUSE", 2);
 
     // Tambahkan garis putih (border)
     setcolor(BLACK);
-    rectangle(520, 15, 620, 45);
+    rectangle(780, 15, 880, 45);
     tampilanNamaArena();
     tampilanLeaderboard();
 

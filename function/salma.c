@@ -309,20 +309,20 @@ void tampilanSkin() {
 // pembuat modul : Salma
 void tampilanArena() 
 {
-    setbkcolor(AmbilWarna("DARKBROWN"));
+    setbkcolor(LIGHTGRAY);
     cleardevice();
 
     Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
 
-    tombol(520, 15, 100, 30, "DARKGRAY", "PAUSE", 2);
+    tombol(780, 15, 100, 30, "DARKGRAY", "PAUSE", 2);
 
     tampilanNamaArena();
     // Gambar border kotak
     setcolor(BLACK);
-    rectangle(520, 15, 620, 45);
+    rectangle(780, 15, 880, 45);
     
     tampilanLeaderboard();
-    setbkcolor(AmbilWarna("DARKBROWN"));
+    setbkcolor(LIGHTGRAY);
 
     // Inisialisasi ular
     InitUlar();
