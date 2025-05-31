@@ -72,7 +72,7 @@ void Tampilkanscore()
     sprintf(scoreText, "Score: %d", score);
 
     // Set warna teks dan latar belakang agar terlihat jelas
-    setcolor(WHITE);
+    setcolor(BLACK);
     setbkcolor(LIGHTGRAY);
     settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 

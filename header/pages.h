@@ -4,7 +4,7 @@
 
 void tampilanAwal();
 
-void tampilanNama();
+void tampilanNamaMenu();
 
 void tampilanPlay();
 
@@ -25,5 +25,6 @@ void tampilanLeaderboard();
 void tampilanGuide();
 
 void tampilanLeaderboardMenu();
+void tampilanNamaArena();
 
 #endif   

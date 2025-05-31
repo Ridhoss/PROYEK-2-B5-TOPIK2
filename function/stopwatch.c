@@ -29,7 +29,7 @@ void Stopwatch() {
     char time_str[10];
     sprintf(time_str, "%02d:%02d", minutes, seconds);
 
-    setcolor(WHITE);
+    setcolor(BLACK);
     settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 
     int text_width = textwidth(time_str);
