@@ -718,8 +718,8 @@ void tampilanGuide() {
 
     // Panah
     readimagefile("assets/arrow.bmp", iconX, instrY, iconX + 60, instrY + 60);
-    tulisan(iconX + 80, instrY + 10, contentW - 200, 25, "YELLOW", "Gunakan tombol", 2, Random);
-    tulisan(iconX + 80, instrY + 35, contentW - 200, 25, "YELLOW", "panah untuk bergerak", 2, Random);
+    tulisan(iconX + 80, instrY + 10, contentW - 200, 25, "WHITE", "Gunakan tombol", 2, Random);
+    tulisan(iconX + 80, instrY + 35, contentW - 200, 25, "WHITE", "panah untuk bergerak", 2, Random);
 
     // Apel
     instrY += 100;
@@ -728,10 +728,10 @@ void tampilanGuide() {
     // Teks untuk apel
     int textY = instrY - 5;
     tulisan(iconX + 70, textY, contentW - 200, 25, "YELLOW", "Skor Makanan:", 2, Random);
-    tulisan(iconX + 70, textY + 25, contentW - 200, 25, "RED",    "Merah   : +1 (Normal)", 2, Random);
-    tulisan(iconX + 70, textY + 45, contentW - 200, 25, "YELLOW", "Kuning  : +5 (Spesial)", 2, Random);
-    tulisan(iconX + 70, textY + 65, contentW - 200, 25, "GREEN",  "Hijau   : -1 (Racun)", 2, Random);
-
+    tulisan(iconX + 70, textY + 25, contentW - 200, 25, "RED",         "Merah   : +1 (Normal)", 2, Random);
+    tulisan(iconX + 70, textY + 65, contentW - 200, 25, "LIGHTBLUE",   "Biru    : +1 (SpeedBoost)", 2, Random);
+    tulisan(iconX + 70, textY + 45, contentW - 200, 25, "YELLOW",      "Kuning  : +5 (Spesial)", 2, Random);
+    tulisan(iconX + 70, textY + 85, contentW - 200, 25, "GREEN",       "Hijau   : -3 (Racun)", 2, Random);
 
     // Dinding
     instrY += 100;
@@ -743,8 +743,8 @@ void tampilanGuide() {
     setlinestyle(SOLID_LINE, 0, 4);
     line(iconX + 10, instrY + 10, iconX + 50, instrY + 50);
     line(iconX + 10, instrY + 50, iconX + 50, instrY + 10);
-    tulisan(iconX + 80, instrY + 10, contentW - 200, 25, "YELLOW", "Hindari dinding arena dan", 2, Random);
-    tulisan(iconX + 80, instrY + 35, contentW - 200, 25, "YELLOW", "tubuhmu sendiri", 2, Random);
+    tulisan(iconX + 80, instrY + 10, contentW - 200, 25, "WHITE", "Hindari dinding arena dan", 2, Random);
+    tulisan(iconX + 80, instrY + 35, contentW - 200, 25, "WHITE", "tubuhmu sendiri", 2, Random);
 
     // Tombol kembali ke menu
     int bottomBtnW = 400;
