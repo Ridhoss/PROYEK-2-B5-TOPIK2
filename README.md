@@ -25,7 +25,7 @@ mingw32-make
 
 4. Jika tidak berhasil (skip jika nomor 1 berhasil) :
 ```bash
-g++ main.c function/basicfunction.c function/pages.c function/makanan.c function/stopwatch.c function/ular.c function/mechanism.c main.exe -I"C:\MinGW-w64\mingw64\include" -L"C:\MinGW-w64\mingw64\lib" -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32
+g++ main.c function/ridho.c function/salma.c function/samudra.c function/akmal.c function/dimas.c main.exe -I"C:\MinGW-w64\mingw64\include" -L"C:\MinGW-w64\mingw64\lib" -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32
 ```
 
 5. Lalu jalankan melalui terminal :
