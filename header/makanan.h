@@ -51,6 +51,7 @@ const char* GetWarnaBadan(int index);
 void PlayNormalsound();
 void PlaySpecialsound();
 void PlayPoisonsound();
+void PlayDeathsound();
 
 void gambarArenaPreview(int index, int x1, int y1, int x2, int y2);
 void gambarArena(int index);

@@ -453,3 +453,7 @@ void tampilanArenaSelection() {
         delay(30);
     }
 }
+
+void PlayDeathsound() {
+    PlaySound(TEXT("assets/sound/death.wav"), NULL, SND_FILENAME | SND_ASYNC);
+}
