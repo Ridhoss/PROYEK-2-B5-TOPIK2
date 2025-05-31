@@ -53,7 +53,6 @@ WarnaCustom daftarWarna[] = {
     {"DARKBROWN", 139, 69, 19}, 
     {"LIGHTBROWN", 210, 180, 140},
     {"GRASSGREEN", 123, 179, 105},
-    
 };
 
 int AmbilWarna(const char* color) {
@@ -418,7 +417,7 @@ void LoopGame() {
 
     gambarArena(selectedArenaIndex);
     tombol(520, 15, 100, 30, "DARKGRAY", "PAUSE", 2);
-    tampilkanLeaderboard();
+    tampilanLeaderboard();
 
     getimage(0, 0, arenaWidth, arenaHeight, arenaBuffer); // simpan sebagai buffer statis
     

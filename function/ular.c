@@ -116,7 +116,7 @@ void InitUlar() {
     
     // Pastikan posisi awal berada dalam batas arena
     if (startX < 40) startX = 40;
-    if (startY < 80) startY = 80;
+    if (startY < 100) startY = 100;
     
     // Buat kepala ular
     insertHead(&snake, startX, startY);
@@ -175,7 +175,7 @@ void CekTabrakan() {
     
     // Cek tabrakan dengan dinding
     if (headX < 20 || headX >= SCREEN_WIDTH - 20 ||
-        headY < 60 || headY >= SCREEN_HEIGHT - 20) {
+        headY < 80 || headY >= SCREEN_HEIGHT - 20) {
         gameOver = true;
         ResetGame();
         tampilanAwal();

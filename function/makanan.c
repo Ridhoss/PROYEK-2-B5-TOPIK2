@@ -21,7 +21,7 @@ extern int selectedArenaIndex;
 // pembuat modul : Samudra
 void GenerateRandomPosition(int *x, int *y) {
     *x = 20 + (rand() % ((SCREEN_WIDTH - 40) / 20)) * 20;
-    *y = 60 + (rand() % ((SCREEN_HEIGHT - 80) / 20)) * 20;
+    *y = 80 + (rand() % ((SCREEN_HEIGHT - 80) / 20)) * 20;
 }
 
 // Fungsi untuk menentukan jenis makanan secara acak
@@ -245,13 +245,13 @@ void gambarArena(int index) {
     
     switch (index) {
         case 0: // Arena Normal (Hitam Polos)
-            Kotak(20, 60, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
+            Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
             break;
         case 1: // Arena Kayu (Papan Catur Coklat)
-            Kotak(20, 60, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BROWN"); // Base warna coklat
+            Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BROWN"); // Base warna coklat
             
             // Gambar pola seperti papan catur
-            for (int y = 60; y < SCREEN_HEIGHT - 20; y += cellSize) {
+            for (int y = 80; y < SCREEN_HEIGHT - 20; y += cellSize) {
                 for (int x = 20; x < SCREEN_WIDTH - 20; x += cellSize) {
                     // Warna bergantian seperti papan catur
                     if (((x / cellSize) + (y / cellSize)) % 2 == 0) {
@@ -263,13 +263,13 @@ void gambarArena(int index) {
             }
             break;
         case 2: // Arena Rumput (Hijau dengan Aksen Rumput)
-            Kotak(20, 60, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "GRASSGREEN"); // Base warna hijau
+            Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "GRASSGREEN"); // Base warna hijau
 
             // Tambahkan aksen rumput
             // PERUBAHAN: Hapus srand(time(NULL)) di sini, karena seharusnya hanya dipanggil sekali di awal program (misalnya di main.c)
             for (int i = 0; i < 50; i++) { // Jumlah aksen rumput
                 int grassX = 20 + (rand() % ((SCREEN_WIDTH - 40) / 5)) * 5; // Posisi X acak
-                int grassY = 60 + (rand() % ((SCREEN_HEIGHT - 80) / 5)) * 5; // Posisi Y acak
+                int grassY = 80 + (rand() % ((SCREEN_HEIGHT - 80) / 5)) * 5; // Posisi Y acak
 
                 setcolor(AmbilWarna("DARKGREEN")); // Warna rumput lebih gelap
                 line(grassX, grassY, grassX + 2, grassY - 5);
@@ -277,7 +277,7 @@ void gambarArena(int index) {
             }
             break;
         default: // Default ke Normal jika indeks tidak valid
-            Kotak(20, 60, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
+            Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
             break;
     }
 }
