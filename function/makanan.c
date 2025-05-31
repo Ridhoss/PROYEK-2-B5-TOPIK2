@@ -339,7 +339,7 @@ void tampilanArenaSelection() {
     setbkcolor(BLACK);
     cleardevice();
 
-    Titik(); // Fungsi dari pages.h
+    Titik(); 
 
     readimagefile(
         "assets/judul.bmp",
@@ -349,7 +349,7 @@ void tampilanArenaSelection() {
         10 + 207
     );
 
-    const char* arenaNames[3] = { // Ubah menjadi 3 arena
+    const char* arenaNames[3] = { 
         "NORMAL",
         "KAYU",
         "RUMPUT"
@@ -399,7 +399,6 @@ void tampilanArenaSelection() {
     setbkcolor(BLACK);
     tulisan(centerX, previewY + arenaPreviewHeight + 20, 0, 0, "WHITE", arenaNames[currentArena], 3, Center);
 
-    // PERUBAHAN: Panggil fungsi pratinjau arena
     gambarArenaPreview(currentArena, tempArenaX1 + 5, tempArenaY1 + 5, tempArenaX2 - 5, tempArenaY2 - 5);
 
     while (1) {
@@ -441,8 +440,6 @@ void tampilanArenaSelection() {
                 // Tampilkan nama arena baru
                 setbkcolor(BLACK);
                 tulisan(centerX, previewY + arenaPreviewHeight + 20, 0, 0, "WHITE", arenaNames[currentArena], 3, Center);
-
-                // PERUBAHAN: Gambar pratinjau arena baru
                 gambarArenaPreview(currentArena, tempArenaX1 + 5, tempArenaY1 + 5, tempArenaX2 - 5, tempArenaY2 - 5);
             } else if (x >= posisiX && x <= posisiX + tombolLebar && y >= posisiY && y <= posisiY + tombolTinggi) {
                 selectedArenaIndex = currentArena; // Simpan pilihan arena
