@@ -57,6 +57,8 @@ void SaveToLeaderboard(char *name, int score, int time);
 
 void AmbilDataLeaderboard();
 
+void UrutkanLeaderboard();
+
 // prosedur untuk tombol mekanisme tombol pause
 void Tombolpause();
 

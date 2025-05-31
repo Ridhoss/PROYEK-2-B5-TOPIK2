@@ -53,7 +53,6 @@ WarnaCustom daftarWarna[] = {
     {"DARKBROWN", 139, 69, 19}, 
     {"LIGHTBROWN", 210, 180, 140},
     {"GRASSGREEN", 123, 179, 105},
-    
 };
 
 int AmbilWarna(const char* color) {
@@ -229,16 +228,55 @@ void ResetGame() {
 
 // Prosedur untuk melakukan save ke txt leaderboard
 // pembuat modul : Ridho
-void SaveToLeaderboard(char *name, int score, int time)
-{
-    FILE *file = fopen("leaderboard.txt", "a");
+void SaveToLeaderboard(char *name, int score, int time) {
+    FILE *file = fopen("leaderboard.txt", "r");
+    int found = 0;
+    jumlahDataLeaderboard = 0;
+
     if (file != NULL) {
-        fprintf(file, "%s %d %d\n", name, lastScore, lastTime);
+        while (fscanf(file, "%s %d %d", leaderboard[jumlahDataLeaderboard].nama,
+                      &leaderboard[jumlahDataLeaderboard].skor,
+                      &leaderboard[jumlahDataLeaderboard].waktu) == 3) {
+            
+            // Cek apakah nama sama
+            if (strcmp(leaderboard[jumlahDataLeaderboard].nama, name) == 0) {
+                found = 1;
+                // Update hanya jika skor baru lebih tinggi
+                if (score > leaderboard[jumlahDataLeaderboard].skor) {
+                    leaderboard[jumlahDataLeaderboard].skor = score;
+                    leaderboard[jumlahDataLeaderboard].waktu = time;
+                }
+            }
+
+            jumlahDataLeaderboard++;
+        }
+        fclose(file);
+    }
+
+    // Kalau nama belum ditemukan, tambahkan data baru
+    if (!found && jumlahDataLeaderboard < MAX_LEADERBOARD) {
+        strcpy(leaderboard[jumlahDataLeaderboard].nama, name);
+        leaderboard[jumlahDataLeaderboard].skor = score;
+        leaderboard[jumlahDataLeaderboard].waktu = time;
+        jumlahDataLeaderboard++;
+    }
+
+    // Urutkan sebelum disimpan (opsional tapi direkomendasikan)
+    UrutkanLeaderboard();
+
+    // Tulis ulang seluruh leaderboard ke file
+    file = fopen("leaderboard.txt", "w");
+    if (file != NULL) {
+        for (int i = 0; i < jumlahDataLeaderboard; i++) {
+            fprintf(file, "%s %d %d\n", leaderboard[i].nama,
+                    leaderboard[i].skor, leaderboard[i].waktu);
+        }
         fclose(file);
     } else {
-        printf("Error opening file!\n");
+        printf("Gagal membuka file leaderboard.txt untuk ditulis!\n");
     }
 }
+
 
 void AmbilDataLeaderboard() {
     FILE *file = fopen("leaderboard.txt", "r");
@@ -258,6 +296,20 @@ void AmbilDataLeaderboard() {
     }
 
     fclose(file);
+
+    UrutkanLeaderboard();
+}
+
+void UrutkanLeaderboard() {
+    for (int i = 0; i < jumlahDataLeaderboard - 1; i++) {
+        for (int j = 0; j < jumlahDataLeaderboard - i - 1; j++) {
+            if (leaderboard[j].skor < leaderboard[j + 1].skor) {
+                LeaderboardEntry temp = leaderboard[j];
+                leaderboard[j] = leaderboard[j + 1];
+                leaderboard[j + 1] = temp;
+            }
+        }
+    }
 }
 
 // Prosedur untuk mengaktifkan atau menonaktifkan pause
@@ -330,6 +382,7 @@ void CekInputUser()
 }
 
 
+
 // Prosedur Loop utama game
 // pembuat modul : Dimas
 // dimodifikasi oleh : Samudra, Ridho, Salma
@@ -364,7 +417,12 @@ void LoopGame() {
 
     gambarArena(selectedArenaIndex);
     tombol(520, 15, 100, 30, "DARKGRAY", "PAUSE", 2);
-    tampilkanLeaderboard();
+
+    // Tambahkan garis putih (border)
+    setcolor(BLACK);
+    rectangle(520, 15, 620, 45);
+
+    tampilanLeaderboard();
 
     getimage(0, 0, arenaWidth, arenaHeight, arenaBuffer); // simpan sebagai buffer statis
     
@@ -409,7 +467,6 @@ void LoopGame() {
                 GenerateRandomPosition(&makanan.x, &makanan.y);
                 makanan.type = GeneratemakananType();
                 makanan.spawnTime = clock();
-                printf("Score sekarang: %d\n", score);
             }
 
             if (currentTime < speedBoostEndTime) {

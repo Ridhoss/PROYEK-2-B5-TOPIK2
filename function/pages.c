@@ -141,7 +141,7 @@ void tampilanAwal() {
                 if ((x >= iconX1 && x <= iconX2 && y >= iconY1 && y <= iconY2) ||
                     (x >= dropX1 && x <= dropX2 && y >= dropY1 && y <= dropY2)) { // Perbaikan di sini
                     if (i == 0) {
-                        tampilanPlay();
+                        tampilanSkin();
                         return;
                     }else if (i == 1) {
                         tampilanGuide();
@@ -192,7 +192,7 @@ void tampilanNama() {
 
 // prosedur untuk tampilan play pilih skin ular
 // pembuat modul : Salma
-void tampilanPlay() {
+void tampilanSkin() {
     setbkcolor(BLACK);
     cleardevice();
 
@@ -309,14 +309,19 @@ void tampilanPlay() {
 // pembuat modul : Salma
 void tampilanArena() 
 {
-    setbkcolor(WHITE);
+    setbkcolor(LIGHTGRAY);
     cleardevice();
 
-    Kotak(20, 60, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
+    Kotak(20, 80, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20, "BLACK");
 
-    tombol(520, 15, 100, 30, "GREEN", "PAUSE", 2);
+    tombol(520, 15, 100, 30, "DARKGRAY", "PAUSE", 2);
+
+    // Tambahkan garis putih (border)
+    setcolor(BLACK);
+    rectangle(520, 15, 620, 45);
     
-    tampilkanLeaderboard();
+    tampilanLeaderboard();
+    setbkcolor(AmbilWarna("LIGHTGRAY"));
 
     // Inisialisasi ular
     InitUlar();
@@ -325,24 +330,28 @@ void tampilanArena()
     LoopGame();
 }
 
-
 // prosedur untuk tampilan popup saat game di pause
 // pembuat modul : Salma
-void PopUpPause() 
-{
+void PopUpPause() {
     int popupX = SCREEN_WIDTH / 4;
     int popupY = SCREEN_HEIGHT / 4;
     int popupWidth = SCREEN_WIDTH / 2;
     int popupHeight = SCREEN_HEIGHT / 2;
 
-    Kotak(popupX, popupY, popupX + popupWidth, popupY + popupHeight, "CYAN");
-    setbkcolor(CYAN); 
-    tulisan(popupX + popupWidth / 2, popupY + 50, 0, 0, "GREY", "GAME PAUSED", 5, Center);
+    
+    Kotak(popupX, popupY, popupX + popupWidth, popupY + popupHeight, "LIGHTGRAY");
+    Kotak(popupX + 5, popupY + 5, popupX + popupWidth - 5, popupY + 40, "GRAY");
+
+    setcolor(AmbilWarna("GRAY"));
+    setlinestyle(SOLID_LINE, 0, 4);
+    rectangle(popupX, popupY, popupX + popupWidth, popupY + popupHeight);
+
+    setbkcolor(AmbilWarna("LIGHTGRAY"));
+    tulisan(popupX + popupWidth / 2, popupY + 80, 0, 0, "BLACK", "GAME PAUSED", 5, Center);
     tombol(popupX + (popupWidth / 2) - 50, popupY + popupHeight / 2 - 20, 100, 40, "GREEN", "RESUME", 2);
     tombol(popupX + (popupWidth / 2) - 50, popupY + popupHeight / 2 + 30, 100, 40, "RED", "EXIT", 2);
-    setbkcolor(CYAN);
+   
 }
-
 
 // prosedur untuk tampilan input nama
 // pembuat modul : Salma
@@ -425,59 +434,84 @@ void gambarAwan(int x, int y)
 // Fungsi menampilkan tabel leaderboard dengan dummy data
 // Pembuat modul : Salma
 // Dimodifikasi oleh : -
-void tampilkanLeaderboard() {
+void tampilanLeaderboard() {
     int kotak_width = 530;
-    int kotak_height = 620;
     int spacing = 600;
+    
+    // Ukuran kotak leaderboard
+    int imageHeight = 60;
+    int barisTinggi = 30;
+    int jumlahData = 10;  // Jumlah data yang akan ditampilkan
+    int headerHeight = 30; // Tinggi header tabel
+    int margin = 40;  //margin bawah
+    int kotak_height = imageHeight + headerHeight + (jumlahData * barisTinggi) + margin; 
 
+    // Ukuran kotak berdasarkan jumlah data
     int x1 = SCREEN_WIDTH - kotak_width - 20 + spacing;
-    int y1 = 60;
+    int y1 = 150;
     int x2 = SCREEN_WIDTH - 20 + spacing;
     int y2 = y1 + kotak_height;
 
-    Kotak(x1, y1, x2, y2, "BLACK"); // Kotak utama
-    setbkcolor(CYAN);
+    Kotak(x1, y1, x2, y2, "BLACK");
+    
+    //Border kotak Leadboard
+    setcolor(WHITE);
+    setlinestyle(SOLID_LINE, 0, 3); 
+    rectangle(x1, y1, x2, y2);
 
-    int imageHeight = 60;
-    readimagefile("assets/group_leaderboard.bmp", x1 + 10, y1 + 10, x2 - 10, y1 + imageHeight);
+   //Kotak untuk judul leaderboard
+    Kotak(x1 + 10, y1 + 10, x2 - 10, y1 + imageHeight, "BLUE");
+    
+    setcolor(WHITE);
+    setlinestyle(SOLID_LINE, 0, 2);
+    rectangle(x1 + 10, y1 + 10, x2 - 10, y1 + imageHeight);
 
-    // Kolom teks (judul)
+    setbkcolor(AmbilWarna("BLUE"));
+    tulisan(x1 + 10, y1 + 10, x2 - x1 - 20, imageHeight, "YELLOW", "LEADERBOARD", 2, Center);
+
+    //Ukuran Kolom untuk tabel leaderboard
     int kolomNoX = x1 + 20;
     int kolomNamaX = x1 + 80;
     int kolomSkorX = x1 + 270;
     int kolomWaktuX = x1 + 390;
-    int awalY = y1 + imageHeight + 20;
-
-    // Header tabel
+    int awalY = y1 + imageHeight + 10; 
+    
     setbkcolor(BLACK);
     tulisan(kolomNoX, awalY, 0, 0, "WHITE", "No", 1, Random);
     tulisan(kolomNamaX, awalY, 0, 0, "WHITE", "Nama", 1, Random);
     tulisan(kolomSkorX, awalY, 0, 0, "WHITE", "Skor", 1, Random);
     tulisan(kolomWaktuX, awalY, 0, 0, "WHITE", "Waktu", 1, Random);
-    setbkcolor(CYAN);
 
-    int barisTinggi = 30;
     AmbilDataLeaderboard();
 
-    for (int i = 0; i < 15; i++) {
-        int barisY = awalY + 10 + (i + 1) * barisTinggi;
-
-        setfillstyle(SOLID_FILL, BLACK);
-        bar(x1 + 10, barisY - 5, x2 - 10, barisY + barisTinggi - 10);
+    // Loop untuk menampilkan tiap baris data leaderboard
+    for (int i = 0; i < jumlahData && i < 15; i++) {
+        int barisY = awalY + headerHeight + (i * barisTinggi);
+        if (i < 3) {
+           setfillstyle(SOLID_FILL, (i == 0) ? AmbilWarna("YELLOW") : (i == 1) ? AmbilWarna("SILVER") : AmbilWarna("BROWN"));
+            bar(x1 + 10, barisY - 5, x2 - 10, barisY + barisTinggi - 10);
+        } else {
+            setfillstyle(SOLID_FILL, WHITE); 
+            bar(x1 + 10, barisY - 5, x2 - 10, barisY + barisTinggi - 10);
+        }
+        
+        setcolor(WHITE);
+        setlinestyle(SOLID_LINE, 0, 1);
+        rectangle(x1 + 10, barisY - 5, x2 - 10, barisY + barisTinggi - 10);
     
         char noStr[10], skorStr[10], waktuStr[10];
         sprintf(noStr, "%d", i + 1);
         sprintf(skorStr, "%d", leaderboard[i].skor);
         sprintf(waktuStr, "%ds", leaderboard[i].waktu);
-    
-        setbkcolor(BLACK);
-        tulisan(kolomNoX, barisY, 0, 0, "WHITE", noStr, 1, Random);
-        tulisan(kolomNamaX, barisY, 0, 0, "WHITE", leaderboard[i].nama, 1, Random);
-        tulisan(kolomSkorX, barisY, 0, 0, "WHITE", skorStr, 1, Random);
-        tulisan(kolomWaktuX, barisY, 0, 0, "WHITE", waktuStr, 1, Random);
-        setbkcolor(CYAN);
+        
+        const char* textColor = "BLACK";
+        // Set warna teks berdasarkan posisi
+        setbkcolor((i < 3) ? ((i == 0) ? AmbilWarna("YELLOW") : (i == 1) ? AmbilWarna("SILVER") : AmbilWarna("BROWN")) : AmbilWarna("WHITE"));
+        tulisan(kolomNoX, barisY, 0, 0, textColor, noStr, 1, Random);
+        tulisan(kolomNamaX, barisY, 0, 0, textColor, leaderboard[i].nama, 1, Random);
+        tulisan(kolomSkorX, barisY, 0, 0, textColor, skorStr, 1, Random);
+        tulisan(kolomWaktuX, barisY, 0, 0, textColor, waktuStr, 1, Random);
     }
-    
 }
 
 // Prosedur untuk menampilkan leaderboard di arena Menu
