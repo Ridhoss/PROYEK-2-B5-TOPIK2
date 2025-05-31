@@ -177,8 +177,7 @@ void CekTabrakan() {
     if (headX < 20 || headX >= SCREEN_WIDTH - 20 ||
         headY < 80 || headY >= SCREEN_HEIGHT - 20) {
         gameOver = true;
-        ResetGame();
-        tampilanAwal();
+        PopUpGameOver(); // Panggil popup game over
         return;
     }
     
@@ -187,8 +186,7 @@ void CekTabrakan() {
     while (current != NULL) {
         if (headX == current->x && headY == current->y) {
             gameOver = true;
-            ResetGame();
-            tampilanAwal();
+            PopUpGameOver(); // Panggil popup game over
             return;
         }
         current = current->next;
@@ -216,5 +214,66 @@ void GambarUlar() {
               current->x + CELL_SIZE, current->y + CELL_SIZE, 
               warnaBadan);
         current = current->next;
+    }
+}
+
+void PopUpGameOver() {
+    int popupX = SCREEN_WIDTH / 4;
+    int popupY = SCREEN_HEIGHT / 4;
+    int popupWidth = SCREEN_WIDTH / 2;
+    int popupHeight = SCREEN_HEIGHT / 2;
+
+    // Gambar kotak popup dengan style yang sama seperti popup pause
+    Kotak(popupX, popupY, popupX + popupWidth, popupY + popupHeight, "CYAN");
+    setbkcolor(CYAN); 
+    
+    // Judul GAME OVER
+    tulisan(popupX + popupWidth / 2, popupY + 50, 0, 0, "RED", "GAME OVER!", 5, Center);
+    
+    // Tampilkan skor final
+    char scoreText[50];
+    sprintf(scoreText, "SKOR AKHIR: %d", score);
+    tulisan(popupX + popupWidth / 2, popupY + 100, 0, 0, "GREY", scoreText, 3, Center);
+    
+    // Tombol RETRY
+    tombol(popupX + (popupWidth / 2) - 50, popupY + popupHeight / 2 - 20, 100, 40, "GREEN", "RETRY", 2);
+    
+    // Tombol MENU
+    tombol(popupX + (popupWidth / 2) - 50, popupY + popupHeight / 2 + 30, 100, 40, "BLUE", "MENU", 2);
+    
+    setbkcolor(CYAN);
+    
+    // Handle input untuk tombol
+    while (1) {
+        int x, y;
+        if (ismouseclick(WM_LBUTTONDOWN)) {
+            getmouseclick(WM_LBUTTONDOWN, x, y);
+            
+            // Tombol RETRY
+            if (x >= popupX + (popupWidth / 2) - 50 && 
+                x <= popupX + (popupWidth / 2) + 50 && 
+                y >= popupY + popupHeight / 2 - 20 && 
+                y <= popupY + popupHeight / 2 + 20) {
+                
+                // Reset game dan mulai ulang
+                ResetGame();
+                tampilanArena();
+                return;
+            }
+            
+            // Tombol MENU
+            if (x >= popupX + (popupWidth / 2) - 50 && 
+                x <= popupX + (popupWidth / 2) + 50 && 
+                y >= popupY + popupHeight / 2 + 30 && 
+                y <= popupY + popupHeight / 2 + 70) {
+                
+                // Kembali ke menu utama
+                ResetGame();
+                tampilanAwal();
+                return;
+            }
+        }
+        
+        delay(50);
     }
 }

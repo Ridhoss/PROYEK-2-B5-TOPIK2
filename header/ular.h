@@ -54,4 +54,7 @@ void CekTabrakan();                                    // Cek tabrakan dengan di
 // Rendering
 void GambarUlar();                                     // Gambar ular di layar
 
+// Pop-up Game Over
+void PopUpGameOver();                                 // Tampilkan popup game over
+
 #endif
