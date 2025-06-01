@@ -32,7 +32,6 @@ LeaderboardEntry leaderboard[MAX_LEADERBOARD];
 int jumlahDataLeaderboard = 0;
 
 // Fungsi untuk mengonversi warna dari string ke nilai integer
-// pembuat modul : Ridho
 WarnaCustom daftarWarna[] = {
     {"ORANGE", 255, 109, 12},
     {"LIGHTORANGE", 251, 192, 153},
@@ -278,31 +277,43 @@ void SaveToLeaderboard(char *name, int score, int time) {
 }
 
 
+// Fungsi untuk mengambil data leaderboard dari file
 void AmbilDataLeaderboard() {
+    // Membuka file "leaderboard.txt" dalam mode baca
     FILE *file = fopen("leaderboard.txt", "r");
     if (file == NULL) {
+        // Jika file gagal dibuka, tampilkan pesan kesalahan dan keluar dari fungsi
         printf("Gagal membuka file leaderboard.txt\n");
         return;
     }
 
+    // Menginisialisasi jumlah data leaderboard yang dibaca
     jumlahDataLeaderboard = 0;
+
+    // Membaca data dari file hingga akhir file atau mencapai batas maksimum
     while (fscanf(file, "%s %d %d", leaderboard[jumlahDataLeaderboard].nama,
                   &leaderboard[jumlahDataLeaderboard].skor,
                   &leaderboard[jumlahDataLeaderboard].waktu) == 3) {
         jumlahDataLeaderboard++;
+
+        // Hentikan jika jumlah data sudah mencapai batas maksimum yang ditentukan
         if (jumlahDataLeaderboard >= MAX_LEADERBOARD) {
             break;
         }
     }
 
+    // Menutup file setelah selesai membaca
     fclose(file);
-
+    // Mengurutkan data leaderboard berdasarkan skor
     UrutkanLeaderboard();
 }
 
+// Fungsi untuk mengurutkan data leaderboard dari skor tertinggi ke terendah
 void UrutkanLeaderboard() {
+    // Menggunakan algoritma bubble sort untuk mengurutkan data
     for (int i = 0; i < jumlahDataLeaderboard - 1; i++) {
         for (int j = 0; j < jumlahDataLeaderboard - i - 1; j++) {
+            // Jika skor pada elemen saat ini lebih kecil dari skor berikutnya, tukar posisinya
             if (leaderboard[j].skor < leaderboard[j + 1].skor) {
                 LeaderboardEntry temp = leaderboard[j];
                 leaderboard[j] = leaderboard[j + 1];
@@ -312,9 +323,8 @@ void UrutkanLeaderboard() {
     }
 }
 
+
 // Prosedur untuk mengaktifkan atau menonaktifkan pause
-// pembuat modul : Salma
-// dimodifikasi oleh : -
 void Tombolpause() {
     if (!paused) {
         paused = true;
@@ -326,8 +336,6 @@ void Tombolpause() {
 }
 
 // Prosedur untuk menangani klik mouse saat game dipause
-// pembuat modul : Salma
-// dimodifikasi oleh : -
 void HandlePause(int x, int y) {
     if (!paused && x >= 780 && x <= 880 && y >= 15 && y <= 45) {
         Tombolpause();
@@ -352,8 +360,6 @@ void HandlePause(int x, int y) {
 }
 
 // Prosedur cek input user
-// pembuat modul : Ridho
-// dimodifikasi oleh : Dimas, Salma
 void CekInputUser()
 {
     // **Input pemain**
@@ -384,50 +390,54 @@ void CekInputUser()
 
 
 // Prosedur Loop utama game
-// pembuat modul : Dimas
-// dimodifikasi oleh : Samudra, Ridho, Salma
 void LoopGame() {
+    // Variabel untuk pengaturan halaman aktif (double buffering)
     int activePage = 0;
+    // Waktu terakhir frame di-update (untuk kontrol frame rate)
     double lastUpdate = clock();
+    // Waktu terakhir ular bergerak (kontrol kecepatan ular)
     double lastMoveTime = clock();
+    // Waktu mulai permainan (untuk stopwatch dan penurunan kecepatan bertahap)
     double startTime = clock();
+    // Delay antar frame agar berjalan di 60 FPS (1000ms / 60)
     double frameDelay = 1000.0 / 60.0;
+    // Kecepatan awal ular dalam milidetik per gerakan
     double snakeSpeed = 120.0;
 
+    // Inisialisasi makanan
     MakananStruct makanan;
-    GenerateRandomPosition(&makanan.x, &makanan.y);
-    makanan.type = GeneratemakananType();
-    makanan.spawnTime = clock();
+    GenerateRandomPosition(&makanan.x, &makanan.y); // Tentukan posisi acak makanan
+    makanan.type = GeneratemakananType();           // Tentukan jenis makanan secara acak
+    makanan.spawnTime = clock();                    // Catat waktu spawn makanan
 
-    startStopwatch();
+    startStopwatch(); // Mulai stopwatch game
 
-    // --- Siapkan buffer statis ---
-    int arenaWidth = getmaxx();
-    int arenaHeight = getmaxy();
+    // --- Buffer statis disiapkan untuk optimasi render ---
+    int arenaWidth = getmaxx();     // Ambil lebar arena
+    int arenaHeight = getmaxy();    // Ambil tinggi arena
 
+    // Alokasi memori untuk menyimpan gambar statis (arena, UI)
     void* arenaBuffer = malloc(imagesize(0, 0, arenaWidth, arenaHeight));
     if (!arenaBuffer) {
         printf("Gagal alokasi buffer\n");
         return;
     }
 
-    // gambar leaderboard dan arena statis
+    // Gambar komponen statis seperti UI, arena, leaderboard
     setactivepage(0);
     cleardevice();
-
     gambarArena(selectedArenaIndex);
     tombol(780, 15, 100, 30, "DARKGRAY", "PAUSE", 2);
 
-    // Tambahkan garis putih (border)
     setcolor(BLACK);
     rectangle(780, 15, 880, 45);
+
     tampilanNamaArena();
     tampilanLeaderboard();
 
-    getimage(0, 0, arenaWidth, arenaHeight, arenaBuffer); // simpan sebagai buffer statis
-    
+    getimage(0, 0, arenaWidth, arenaHeight, arenaBuffer);
 
-    // --- Loop utama game ---
+    // === Loop utama game ===
     while (!gameOver) {
         double currentTime = clock();
 
@@ -442,60 +452,71 @@ void LoopGame() {
                 lastMoveTime = currentTime;
             }
 
+            // Spawn makanan, Jika makanan beracun sudah muncul > 5 detik, ganti makanan baru
             if (makanan.type == POISON && (currentTime - makanan.spawnTime) / CLOCKS_PER_SEC > 5) {
                 GenerateRandomPosition(&makanan.x, &makanan.y);
                 makanan.type = GeneratemakananType();
                 makanan.spawnTime = clock();
             }
 
-            // --- Double Buffering ---
-            activePage = 1 - activePage;
-            setactivepage(activePage);
-            cleardevice();
+            // === Double Buffering ===
+            activePage = 1 - activePage; // Tukar halaman (page flip)
+            setactivepage(activePage);   // Aktifkan page baru
+            cleardevice();               // Bersihkan page aktif
 
-            // Tempel ulang arena statis ke buffer aktif
+            // Tempel ulang gambar statis (arena, UI) dari buffer
             putimage(0, 0, arenaBuffer, COPY_PUT);
 
-            // Gambar elemen dinamis di atas buffer statis
+            // Gambar elemen dinamis seperti skor, stopwatch, makanan, dan ular
             Tampilkanscore();
             Stopwatch();
             Makanan(makanan);
-            GambarUlar();
+            GambarUlar()
 
-            // Makan makanan
+            // Cek apakah ular memakan makanan
             if (CekMakanMakanan(&makanan)) {
                 GenerateRandomPosition(&makanan.x, &makanan.y);
                 makanan.type = GeneratemakananType();
                 makanan.spawnTime = clock();
             }
 
+            // Jika dalam efek speed boost, percepat ular
             if (currentTime < speedBoostEndTime) {
-                snakeSpeed = 70.0; 
-            } else if (currentTime < slowDownEndTime) {
-                snakeSpeed = 180.0; 
-            } else {
-                snakeSpeed = 120.0;  
+                snakeSpeed = 70.0;
+            } 
+            // Jika dalam efek slow down, perlambat ular
+            else if (currentTime < slowDownEndTime) {
+                snakeSpeed = 180.0;
+            } 
+            // Jika tidak ada efek, kembalikan ke kecepatan default
+            else {
+                snakeSpeed = 120.0;
             }
 
+            // Percepat ular seiring waktu (tiap 20 detik dikurangi 10ms)
             double elapsedSeconds = (clock() - startTime) / CLOCKS_PER_SEC;
             double speedReduction = (int)(elapsedSeconds / 20) * 10.0;
             snakeSpeed -= speedReduction;
 
+            // Tetapkan batas kecepatan minimum
             if (snakeSpeed < 40.0) snakeSpeed = 40.0;
-
 
             setvisualpage(activePage);
         } else {
+            // Jika sedang pause, tetap tampilkan halaman aktif
             setvisualpage(activePage);
             PopUpPause();
 
+            // Tunggu sampai tidak pause lagi atau gameOver
             while (paused && !gameOver) {
                 CekInputUser();
                 delay(10);
             }
         }
 
+        // Cek tabrakan ular dengan dirinya atau tembok
         CekTabrakan();
+
         delay(10);
     }
 
